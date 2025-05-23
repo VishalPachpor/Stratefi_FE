@@ -1,14 +1,17 @@
-"use client"
-import { motion } from "framer-motion"
-import { ArrowRight, Shield, Wallet } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useTypewriter } from "@/hooks/use-typewriter"
-import ParticleBackground from "@/components/particle-background"
-import LiveCounter from "@/components/live-counter"
-import MorphingShape from "@/components/morphing-shape"
+"use client";
+import { motion } from "framer-motion";
+import { ArrowRight, Shield, Wallet } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTypewriter } from "@/hooks/use-typewriter";
+import ParticleBackground from "@/components/particle-background";
+import LiveCounter from "@/components/live-counter";
+import MorphingShape from "@/components/morphing-shape";
 
 export default function HeroSection() {
-  const text = useTypewriter("Optimize your DeFi portfolio with AI-powered intelligence", 100)
+  const text = useTypewriter(
+    "Optimize your DeFi portfolio with AI-powered intelligence",
+    100
+  );
 
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-br from-slate-900 to-slate-800 text-white">
@@ -30,7 +33,9 @@ export default function HeroSection() {
 
               <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                 <span className="block">{text}</span>
-                <span className="mt-2 block text-blue-400">Maximize Your Yields</span>
+                <span className="mt-2 block text-blue-400">
+                  Maximize Your Yields
+                </span>
               </h1>
 
               <motion.p
@@ -39,8 +44,8 @@ export default function HeroSection() {
                 transition={{ delay: 1.5, duration: 0.8 }}
                 className="mt-6 max-w-lg text-xl text-slate-300"
               >
-                Stop leaving money on the table. Our AI analyzes thousands of DeFi protocols to find the highest yields
-                for your assets.
+                Stop leaving money on the table. Our AI analyzes thousands of
+                DeFi protocols to find the highest yields for your assets.
               </motion.p>
             </div>
 
@@ -49,20 +54,20 @@ export default function HeroSection() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 animate={{
-                  y: [0, -8, 0],
-                  boxShadow: [
-                    "0 0 0 rgba(59, 130, 246, 0.4)",
-                    "0 0 20px rgba(59, 130, 246, 0.6)",
-                    "0 0 0 rgba(59, 130, 246, 0.4)",
-                  ],
+                  y: -8,
+                  boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)",
                 }}
                 transition={{
                   duration: 2,
                   repeat: Number.POSITIVE_INFINITY,
-                  repeatType: "loop",
+                  repeatType: "reverse",
+                  ease: "easeInOut",
                 }}
               >
-                <Button size="lg" className="bg-blue-600 text-white hover:bg-blue-700">
+                <Button
+                  size="lg"
+                  className="bg-blue-600 text-white hover:bg-blue-700"
+                >
                   Connect Wallet <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </motion.div>
@@ -85,7 +90,12 @@ export default function HeroSection() {
             >
               <div className="text-center">
                 <p className="text-sm text-slate-400">Total Value Locked</p>
-                <LiveCounter prefix="$" value={1243567890} duration={3} className="text-2xl font-bold text-blue-400" />
+                <LiveCounter
+                  prefix="$"
+                  value={1243567890}
+                  duration={3}
+                  className="text-2xl font-bold text-blue-400"
+                />
               </div>
               <div className="text-center">
                 <p className="text-sm text-slate-400">Avg. APY Increase</p>
@@ -122,7 +132,9 @@ export default function HeroSection() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Shield className="h-5 w-5 text-blue-400" />
-                    <span className="text-sm font-medium text-slate-300">DeFi Portfolio Optimizer</span>
+                    <span className="text-sm font-medium text-slate-300">
+                      DeFi Portfolio Optimizer
+                    </span>
                   </div>
                   <div className="flex space-x-2">
                     <motion.div
@@ -144,7 +156,9 @@ export default function HeroSection() {
                 <div className="mt-8 space-y-6">
                   {/* Portfolio visualization */}
                   <div className="rounded-lg bg-slate-800 p-4">
-                    <h3 className="mb-4 text-sm font-medium text-slate-300">Your Optimized Portfolio</h3>
+                    <h3 className="mb-4 text-sm font-medium text-slate-300">
+                      Your Optimized Portfolio
+                    </h3>
                     <div className="space-y-3">
                       {[
                         { name: "Ethereum", apy: 5.2, allocation: 40 },
@@ -152,10 +166,15 @@ export default function HeroSection() {
                         { name: "Solana", apy: 12.3, allocation: 20 },
                         { name: "Avalanche", apy: 15.1, allocation: 10 },
                       ].map((asset, index) => (
-                        <div key={index} className="flex items-center justify-between">
+                        <div
+                          key={index}
+                          className="flex items-center justify-between"
+                        >
                           <div className="flex items-center space-x-2">
                             <div className="h-6 w-6 rounded-full bg-blue-500/30"></div>
-                            <span className="text-sm text-slate-300">{asset.name}</span>
+                            <span className="text-sm text-slate-300">
+                              {asset.name}
+                            </span>
                           </div>
                           <div className="flex items-center space-x-4">
                             <div className="w-24">
@@ -163,12 +182,17 @@ export default function HeroSection() {
                                 <motion.div
                                   initial={{ width: 0 }}
                                   animate={{ width: `${asset.allocation}%` }}
-                                  transition={{ delay: 1 + index * 0.2, duration: 1 }}
+                                  transition={{
+                                    delay: 1 + index * 0.2,
+                                    duration: 1,
+                                  }}
                                   className="h-2 rounded-full bg-blue-500"
                                 ></motion.div>
                               </div>
                             </div>
-                            <span className="text-sm font-medium text-green-400">{asset.apy}%</span>
+                            <span className="text-sm font-medium text-green-400">
+                              {asset.apy}%
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -179,16 +203,30 @@ export default function HeroSection() {
                   <div className="flex justify-around">
                     <MorphingShape
                       startIcon={<Wallet className="h-10 w-10 text-blue-400" />}
-                      endIcon={<span className="text-2xl font-bold text-green-400">$</span>}
+                      endIcon={
+                        <span className="text-2xl font-bold text-green-400">
+                          $
+                        </span>
+                      }
                     />
                     <MorphingShape
-                      startIcon={<Wallet className="h-10 w-10 text-purple-400" />}
-                      endIcon={<span className="text-2xl font-bold text-green-400">$</span>}
+                      startIcon={
+                        <Wallet className="h-10 w-10 text-purple-400" />
+                      }
+                      endIcon={
+                        <span className="text-2xl font-bold text-green-400">
+                          $
+                        </span>
+                      }
                       delay={1}
                     />
                     <MorphingShape
                       startIcon={<Wallet className="h-10 w-10 text-blue-400" />}
-                      endIcon={<span className="text-2xl font-bold text-green-400">$</span>}
+                      endIcon={
+                        <span className="text-2xl font-bold text-green-400">
+                          $
+                        </span>
+                      }
                       delay={2}
                     />
                   </div>
@@ -200,10 +238,13 @@ export default function HeroSection() {
                     transition={{ delay: 2, duration: 0.5 }}
                     className="rounded-lg bg-blue-500/10 p-4"
                   >
-                    <h3 className="mb-2 text-sm font-medium text-blue-400">AI Recommendation</h3>
+                    <h3 className="mb-2 text-sm font-medium text-blue-400">
+                      AI Recommendation
+                    </h3>
                     <p className="text-sm text-slate-300">
                       Rebalance your portfolio to increase APY by{" "}
-                      <span className="font-bold text-green-400">+3.2%</span> with minimal risk adjustment.
+                      <span className="font-bold text-green-400">+3.2%</span>{" "}
+                      with minimal risk adjustment.
                     </p>
                     <Button
                       size="sm"
@@ -220,5 +261,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.dev",
+  title: "Stratefi - AI Yield Optimizer",
+  description:
+    "Advanced DeFi yield optimization powered by AI. Maximize your returns with intelligent strategy selection and real-time market analysis.",
+  generator: "Stratefi",
+  keywords: [
+    "DeFi",
+    "Yield Farming",
+    "AI",
+    "Cryptocurrency",
+    "Blockchain",
+    "Web3",
+  ],
 };
 
 export default function RootLayout({
@@ -14,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

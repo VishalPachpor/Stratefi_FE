@@ -13,6 +13,15 @@ import {
   Gauge,
   TrendingUp,
   TrendingDown,
+  CheckCircle,
+  DollarSign,
+  Activity,
+  Zap,
+  Target,
+  AlertTriangle,
+  Brain,
+  BarChart3,
+  Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +36,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import {
+  LiveMarketFeed,
+  PulseIndicator,
+} from "@/components/ui/live-market-feed";
+import { AnimatedCounter, RacingBars } from "@/components/ui/animated-counter";
+import { AIAgentAvatar } from "@/components/ui/ai-agent-avatar";
 
 interface MarketData {
   timestamp: string;
@@ -43,14 +58,50 @@ interface Asset {
   marketData: MarketData[];
 }
 
+interface MarketInsight {
+  id: string;
+  type: "opportunity" | "risk" | "rebalance" | "news";
+  title: string;
+  description: string;
+  impact: "high" | "medium" | "low";
+  confidence: number;
+  timestamp: string;
+  value?: number;
+  change?: number;
+}
+
 export default function RealTimeIntelligence() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
   const [volatility, setVolatility] = useState(50);
   const [showAlert, setShowAlert] = useState(false);
   const [activeTab, setActiveTab] = useState("market");
+  const [insights, setInsights] = useState<MarketInsight[]>([]);
+  const [aiProcessing, setAiProcessing] = useState(false);
+  const [protocolCount, setProtocolCount] = useState(1000);
+  const [chainCount, setChainCount] = useState(12);
+  const [isClient, setIsClient] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  // Mock assets data
+  // Initialize client-side only values
+  useEffect(() => {
+    setIsClient(true);
+    setLastUpdated(new Date()); // Set initial timestamp
+
+    // Set initial random values
+    setProtocolCount(Math.floor(Math.random() * 500 + 1000));
+    setChainCount(Math.floor(Math.random() * 5 + 12));
+
+    // Update these values every 30 minutes to show some activity
+    const protocolInterval = setInterval(() => {
+      setProtocolCount(Math.floor(Math.random() * 500 + 1000));
+      setChainCount(Math.floor(Math.random() * 5 + 12));
+    }, 30 * 60 * 1000); // Every 30 minutes
+
+    return () => clearInterval(protocolInterval);
+  }, []);
+
+  // Mock assets data - using fixed base values to avoid hydration mismatch
   const assets: Asset[] = [
     {
       id: "eth",
@@ -58,7 +109,7 @@ export default function RealTimeIntelligence() {
       symbol: "ETH",
       price: 3012.45,
       change24h: 2.3,
-      marketData: generateMarketData(30, 3000, volatility),
+      marketData: [], // Will be populated client-side
     },
     {
       id: "btc",
@@ -66,7 +117,7 @@ export default function RealTimeIntelligence() {
       symbol: "BTC",
       price: 42568.12,
       change24h: -1.2,
-      marketData: generateMarketData(30, 42000, volatility),
+      marketData: [], // Will be populated client-side
     },
     {
       id: "sol",
@@ -74,16 +125,75 @@ export default function RealTimeIntelligence() {
       symbol: "SOL",
       price: 103.78,
       change24h: 5.7,
-      marketData: generateMarketData(30, 100, volatility),
+      marketData: [], // Will be populated client-side
     },
   ];
 
-  // Generate market data based on volatility
+  // Simulated AI insights
+  const mockInsights: MarketInsight[] = [
+    {
+      id: "1",
+      type: "opportunity",
+      title: "AAVE Lending Rate Surge",
+      description:
+        "AAVE lending rates increased by 2.3% in the last hour. Consider rebalancing ETH allocation.",
+      impact: "high",
+      confidence: 92,
+      timestamp: "2 minutes ago",
+      value: 8.7,
+      change: 2.3,
+    },
+    {
+      id: "2",
+      type: "risk",
+      title: "High Volatility Detected",
+      description:
+        "SOL price volatility increased 180%. Risk management protocols activated.",
+      impact: "medium",
+      confidence: 87,
+      timestamp: "5 minutes ago",
+      value: 180,
+      change: -12.4,
+    },
+    {
+      id: "3",
+      type: "rebalance",
+      title: "Portfolio Rebalance Suggested",
+      description:
+        "Move 15% from USDC to ETH staking for +3.2% APY improvement.",
+      impact: "high",
+      confidence: 95,
+      timestamp: "8 minutes ago",
+      value: 3.2,
+      change: 15,
+    },
+    {
+      id: "4",
+      type: "news",
+      title: "Protocol Upgrade",
+      description:
+        "Compound V3 upgrade completed. Enhanced yield opportunities available.",
+      impact: "medium",
+      confidence: 100,
+      timestamp: "15 minutes ago",
+    },
+  ];
+
+  const apyComparisonData = [
+    { label: "Traditional Banks", value: 0.5, color: "#ef4444" },
+    { label: "DeFi Average", value: 4.2, color: "#f59e0b" },
+    { label: "Our Optimization", value: 8.7, color: "#10b981" },
+    { label: "AI Enhanced", value: 12.4, color: "#3b82f6" },
+  ];
+
+  // Generate market data based on volatility (client-side only)
   function generateMarketData(
     days: number,
     basePrice: number,
     volatilityFactor: number
   ): MarketData[] {
+    if (!isClient) return []; // Return empty array during SSR
+
     const data: MarketData[] = [];
     let currentPrice = basePrice;
 
@@ -114,317 +224,447 @@ export default function RealTimeIntelligence() {
     }
   }, [volatility]);
 
+  // Simulate real-time insights
+  useEffect(() => {
+    if (!isInView || !isClient) return;
+
+    // Initial update - trigger immediately
+    const performUpdate = () => {
+      setAiProcessing(true);
+
+      setTimeout(() => {
+        const randomInsight =
+          mockInsights[Math.floor(Math.random() * mockInsights.length)];
+        const newInsight = {
+          ...randomInsight,
+          id: Date.now().toString(),
+          timestamp: "Just now",
+          confidence: Math.floor(Math.random() * 20) + 80,
+        };
+
+        setInsights((prev) => [newInsight, ...prev.slice(0, 3)]);
+        setAiProcessing(false);
+        setLastUpdated(new Date()); // Update timestamp
+      }, 2000);
+    };
+
+    // Trigger initial update immediately
+    performUpdate();
+
+    // Set up interval for subsequent updates every 2 hours
+    const interval = setInterval(performUpdate, 2 * 60 * 60 * 1000);
+
+    // Also set initial insights for immediate display
+    setInsights(mockInsights.slice(0, 2));
+
+    return () => clearInterval(interval);
+  }, [isInView, isClient]);
+
+  const getInsightIcon = (type: string) => {
+    switch (type) {
+      case "opportunity":
+        return <TrendingUp className="h-4 w-4" />;
+      case "risk":
+        return <AlertTriangle className="h-4 w-4" />;
+      case "rebalance":
+        return <Target className="h-4 w-4" />;
+      case "news":
+        return <Activity className="h-4 w-4" />;
+      default:
+        return <Brain className="h-4 w-4" />;
+    }
+  };
+
+  const getInsightColor = (type: string) => {
+    switch (type) {
+      case "opportunity":
+        return "text-green-400 bg-green-400/10 border-green-400/20";
+      case "risk":
+        return "text-red-400 bg-red-400/10 border-red-400/20";
+      case "rebalance":
+        return "text-blue-400 bg-blue-400/10 border-blue-400/20";
+      case "news":
+        return "text-purple-400 bg-purple-400/10 border-purple-400/20";
+      default:
+        return "text-slate-400 bg-slate-400/10 border-slate-400/20";
+    }
+  };
+
+  const getImpactColor = (impact: string) => {
+    switch (impact) {
+      case "high":
+        return "text-orange-400";
+      case "medium":
+        return "text-yellow-400";
+      case "low":
+        return "text-green-400";
+      default:
+        return "text-slate-400";
+    }
+  };
+
   return (
-    <section ref={ref} className="py-20 lg:py-32 bg-slate-900/30">
+    <section ref={ref} className="py-20 lg:py-32 relative">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <Badge
-            variant="outline"
-            className="mb-4 border-cyan-500/30 text-cyan-400"
-          >
-            Real-Time Intelligence
-          </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            AI-Powered{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
-              Market Intelligence
-            </span>
-          </h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-            Monitor market conditions and receive intelligent alerts to optimize
-            your portfolio with real-time AI analysis and predictive insights.
-          </p>
-        </motion.div>
-
-        {/* Alert notification */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: showAlert ? 1 : 0, y: showAlert ? 0 : -20 }}
-          transition={{ duration: 0.3 }}
-          className="mb-6 rounded-lg bg-red-500/20 p-4 text-red-300 max-w-4xl mx-auto"
-        >
-          <div className="flex items-center space-x-2">
-            <AlertCircle className="h-5 w-5" />
-            <span className="font-medium">High Market Volatility Alert</span>
-          </div>
-          <p className="mt-1 text-sm">
-            Market volatility has increased significantly. Consider adjusting
-            your risk parameters.
-          </p>
-        </motion.div>
-
-        <div className="grid gap-8 lg:grid-cols-12 max-w-6xl mx-auto">
-          {/* Market Monitor */}
-          <motion.div
+        <div className="mb-12 text-center">
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-8"
+            transition={{ duration: 0.5 }}
+            className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
           >
-            <Card className="bg-slate-900/50 border-slate-800">
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Market Monitor</CardTitle>
-                  <div className="flex items-center space-x-2 text-sm text-slate-400">
-                    <Clock className="h-4 w-4" />
-                    <span>Real-time updates</span>
-                  </div>
-                </div>
-                <CardDescription>
-                  Track market conditions and asset performance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Tabs
-                  defaultValue="market"
-                  value={activeTab}
-                  onValueChange={setActiveTab}
-                >
-                  <TabsList className="mb-4 bg-slate-800">
-                    <TabsTrigger value="market">Market Overview</TabsTrigger>
-                    <TabsTrigger value="assets">Asset Performance</TabsTrigger>
-                    <TabsTrigger value="predictions">
-                      AI Predictions
-                    </TabsTrigger>
-                  </TabsList>
+            Real-Time Market Intelligence
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mx-auto max-w-2xl text-lg text-slate-300"
+          >
+            Our AI continuously monitors market conditions and identifies
+            optimization opportunities in real-time
+          </motion.p>
+        </div>
 
-                  <TabsContent value="market" className="space-y-4">
-                    <div className="rounded-lg border border-slate-800 bg-slate-900 p-4">
-                      <h4 className="mb-4 font-medium text-white">
-                        Market Volatility Simulator
-                      </h4>
-                      <div className="mb-2 flex items-center justify-between text-sm text-slate-400">
-                        <span>Low Volatility</span>
-                        <span>High Volatility</span>
-                      </div>
-                      <Slider
-                        value={[volatility]}
-                        onValueChange={(value) => setVolatility(value[0])}
-                        max={100}
-                        step={1}
-                        className="mb-6"
+        <div className="grid gap-8 lg:grid-cols-3">
+          {/* AI Agent & Live Insights */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* AI Agent Status */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <AIAgentAvatar
+                        isActive={true}
+                        isTalking={aiProcessing}
+                        size="lg"
                       />
-
-                      <div className="mb-4 grid grid-cols-3 gap-4">
-                        <div className="rounded-lg bg-slate-800 p-3 text-center">
-                          <p className="text-xs text-slate-400">Market Pulse</p>
-                          <div className="flex items-center justify-center">
-                            <motion.div
-                              animate={{ scale: [1, 1.2, 1] }}
-                              transition={{ duration: 1.5, repeat: Infinity }}
-                              className="mt-2"
-                            >
-                              <Gauge className="h-6 w-6 text-cyan-400" />
-                            </motion.div>
-                          </div>
-                        </div>
-                        <div className="rounded-lg bg-slate-800 p-3 text-center">
-                          <p className="text-xs text-slate-400">Volatility</p>
-                          <p className="text-lg font-bold text-white">
-                            {volatility}%
-                          </p>
-                        </div>
-                        <div className="rounded-lg bg-slate-800 p-3 text-center">
-                          <p className="text-xs text-slate-400">Risk Level</p>
-                          <p
-                            className={`text-lg font-bold ${
-                              volatility > 70
-                                ? "text-red-400"
-                                : volatility > 40
-                                ? "text-yellow-400"
-                                : "text-green-400"
-                            }`}
-                          >
-                            {volatility > 70
-                              ? "High"
-                              : volatility > 40
-                              ? "Medium"
-                              : "Low"}
-                          </p>
-                        </div>
+                      <div>
+                        <CardTitle className="flex items-center space-x-2">
+                          <span>AI Market Agent</span>
+                          <PulseIndicator />
+                        </CardTitle>
+                        <CardDescription suppressHydrationWarning>
+                          Analyzing {protocolCount} protocols across{" "}
+                          {chainCount} chains
+                          {lastUpdated && (
+                            <div className="text-xs text-slate-500 mt-1">
+                              Last updated: {lastUpdated.toLocaleTimeString()}
+                            </div>
+                          )}
+                        </CardDescription>
                       </div>
                     </div>
-                  </TabsContent>
-
-                  <TabsContent value="assets" className="space-y-4">
-                    <div className="grid gap-4">
-                      {assets.map((asset, index) => (
-                        <div
-                          key={asset.id}
-                          className="rounded-lg border border-slate-800 bg-slate-900 p-4"
-                        >
-                          <div className="flex items-center justify-between mb-3">
-                            <div>
-                              <h4 className="font-medium text-white">
-                                {asset.name}
-                              </h4>
-                              <p className="text-sm text-slate-400">
-                                {asset.symbol}
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-lg font-bold text-white">
-                                ${asset.price.toLocaleString()}
-                              </p>
-                              <div
-                                className={`flex items-center text-sm ${
-                                  asset.change24h >= 0
-                                    ? "text-green-400"
-                                    : "text-red-400"
-                                }`}
-                              >
-                                {asset.change24h >= 0 ? (
-                                  <TrendingUp className="h-3 w-3 mr-1" />
-                                ) : (
-                                  <TrendingDown className="h-3 w-3 mr-1" />
-                                )}
-                                {Math.abs(asset.change24h)}%
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="h-24">
-                            <ResponsiveContainer width="100%" height="100%">
-                              <LineChart data={asset.marketData}>
-                                <Line
-                                  type="monotone"
-                                  dataKey="price"
-                                  stroke={
-                                    asset.change24h >= 0 ? "#10B981" : "#EF4444"
-                                  }
-                                  strokeWidth={2}
-                                  dot={false}
-                                />
-                              </LineChart>
-                            </ResponsiveContainer>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="predictions" className="space-y-4">
-                    <div className="rounded-lg border border-slate-800 bg-slate-900 p-4">
-                      <h4 className="mb-4 font-medium text-white">
-                        AI Market Predictions
-                      </h4>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between p-3 rounded bg-slate-800">
-                          <span className="text-slate-300">
-                            24h Price Movement
-                          </span>
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-500/20 text-green-400"
-                          >
-                            +2.3% Bullish
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded bg-slate-800">
-                          <span className="text-slate-300">
-                            Optimal Entry Point
-                          </span>
-                          <Badge
-                            variant="secondary"
-                            className="bg-blue-500/20 text-blue-400"
-                          >
-                            $2,950 ETH
-                          </Badge>
-                        </div>
-                        <div className="flex items-center justify-between p-3 rounded bg-slate-800">
-                          <span className="text-slate-300">
-                            Risk Assessment
-                          </span>
-                          <Badge
-                            variant="secondary"
-                            className="bg-yellow-500/20 text-yellow-400"
-                          >
-                            Medium Risk
-                          </Badge>
-                        </div>
+                    <Badge
+                      variant="outline"
+                      className="border-green-500/20 text-green-400"
+                    >
+                      <CheckCircle className="mr-1 h-3 w-3" />
+                      Active
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="text-center">
+                      <p className="text-sm text-slate-400">
+                        Opportunities Found
+                      </p>
+                      <div suppressHydrationWarning>
+                        <AnimatedCounter
+                          value={
+                            insights.filter((i) => i.type === "opportunity")
+                              .length + 47
+                          }
+                          className="text-xl font-bold text-green-400"
+                        />
                       </div>
                     </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-          </motion.div>
+                    <div className="text-center">
+                      <p className="text-sm text-slate-400">Risks Mitigated</p>
+                      <AnimatedCounter
+                        value={23}
+                        className="text-xl font-bold text-blue-400"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm text-slate-400">
+                        Avg. Response Time
+                      </p>
+                      <p className="text-xl font-bold text-purple-400">0.3s</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm text-slate-400">Confidence Score</p>
+                      <AnimatedCounter
+                        value={94.7}
+                        suffix="%"
+                        decimals={1}
+                        className="text-xl font-bold text-cyan-400"
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-          {/* Intelligence Panel */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="lg:col-span-4 space-y-6"
-          >
-            {/* AI Insights */}
-            <Card className="bg-slate-900/50 border-slate-800">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center">
-                  <Bell className="h-5 w-5 mr-2 text-cyan-400" />
-                  AI Insights
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                  <p className="text-sm text-cyan-300">
-                    Market shows strong bullish signals. Consider increasing
-                    exposure to ETH and SOL.
-                  </p>
-                  <span className="text-xs text-slate-400 mt-1 block">
-                    2 minutes ago
-                  </span>
-                </div>
-                <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-                  <p className="text-sm text-yellow-300">
-                    High volatility detected. Risk management protocols
-                    activated.
-                  </p>
-                  <span className="text-xs text-slate-400 mt-1 block">
-                    5 minutes ago
-                  </span>
-                </div>
-                <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <p className="text-sm text-green-300">
-                    New yield opportunity found: 15.2% APY on Curve protocol.
-                  </p>
-                  <span className="text-xs text-slate-400 mt-1 block">
-                    12 minutes ago
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Live Market Feed */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <BarChart3 className="h-5 w-5 text-blue-400" />
+                    <span>Live Market Data</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <LiveMarketFeed
+                    autoRefresh={true}
+                    refreshInterval={60 * 60 * 1000}
+                  />
+                </CardContent>
+              </Card>
+            </motion.div>
 
-            {/* Quick Actions */}
-            <Card className="bg-slate-900/50 border-slate-800">
-              <CardHeader>
-                <CardTitle className="text-white">Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full bg-cyan-600 hover:bg-cyan-700">
-                  Optimize Portfolio
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full border-slate-700 text-slate-300"
-                >
-                  View Recommendations
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full border-slate-700 text-slate-300"
-                >
-                  Risk Analysis
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
+            {/* AI Insights Feed */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Brain className="h-5 w-5 text-purple-400" />
+                      <span>AI Insights</span>
+                    </div>
+                    {aiProcessing && (
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="text-blue-400"
+                      >
+                        <Zap className="h-4 w-4" />
+                      </motion.div>
+                    )}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {insights.length === 0 && (
+                      <div className="text-center py-8 text-slate-400">
+                        <Brain className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                        <p>AI is analyzing market conditions...</p>
+                      </div>
+                    )}
+
+                    {insights.map((insight, index) => (
+                      <motion.div
+                        key={insight.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className={`p-4 rounded-lg border ${getInsightColor(
+                          insight.type
+                        )}`}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex items-center space-x-2">
+                            {getInsightIcon(insight.type)}
+                            <h4 className="font-medium">{insight.title}</h4>
+                          </div>
+                          <div className="flex items-center space-x-2 text-xs">
+                            <span className={getImpactColor(insight.impact)}>
+                              {insight.impact.toUpperCase()}
+                            </span>
+                            <Badge variant="outline" className="text-xs">
+                              {insight.confidence}% confidence
+                            </Badge>
+                          </div>
+                        </div>
+                        <p className="text-sm text-slate-300 mb-2">
+                          {insight.description}
+                        </p>
+                        <div className="flex items-center justify-between text-xs text-slate-400">
+                          <div className="flex items-center space-x-1">
+                            <Clock className="h-3 w-3" />
+                            <span>{insight.timestamp}</span>
+                          </div>
+                          {insight.value && (
+                            <div className="flex items-center space-x-1">
+                              <DollarSign className="h-3 w-3" />
+                              <span>Impact: {insight.value}%</span>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Performance Metrics & Comparison */}
+          <div className="space-y-6">
+            {/* Yield Performance Comparison */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+                <CardHeader>
+                  <CardTitle className="text-lg">Yield Performance</CardTitle>
+                  <CardDescription>
+                    AI optimization vs traditional methods
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <RacingBars data={apyComparisonData} />
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Performance Metrics */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+                <CardHeader>
+                  <CardTitle className="text-lg">Performance Metrics</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      24h Volume Analyzed
+                    </span>
+                    <AnimatedCounter
+                      value={847000000}
+                      prefix="$"
+                      className="font-medium text-white"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      Optimization Accuracy
+                    </span>
+                    <AnimatedCounter
+                      value={96.8}
+                      suffix="%"
+                      decimals={1}
+                      className="font-medium text-green-400"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      Gas Fees Saved
+                    </span>
+                    <AnimatedCounter
+                      value={34500}
+                      prefix="$"
+                      className="font-medium text-blue-400"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      Avg. Yield Improvement
+                    </span>
+                    <AnimatedCounter
+                      value={4.3}
+                      suffix="%"
+                      decimals={1}
+                      className="font-medium text-purple-400"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Risk Management */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center space-x-2">
+                    <Shield className="h-5 w-5 text-green-400" />
+                    <span>Risk Management</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">Risk Score</span>
+                    <Badge
+                      variant="outline"
+                      className="border-green-500/20 text-green-400"
+                    >
+                      Low Risk
+                    </Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      Diversification
+                    </span>
+                    <span className="font-medium text-blue-400">Optimal</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      Insurance Coverage
+                    </span>
+                    <AnimatedCounter
+                      value={95}
+                      suffix="%"
+                      className="font-medium text-purple-400"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-400">
+                      Emergency Reserves
+                    </span>
+                    <AnimatedCounter
+                      value={15}
+                      suffix="%"
+                      className="font-medium text-cyan-400"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Action Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <Button
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6"
+                size="lg"
+              >
+                <Brain className="mr-2 h-5 w-5" />
+                Activate AI Optimization
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

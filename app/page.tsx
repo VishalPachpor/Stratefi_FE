@@ -7,10 +7,25 @@ import RiskManagement from "@/components/sections/risk-management";
 import HowItWorks from "@/components/sections/how-it-works";
 import Footer from "@/components/sections/footer";
 import { MouseTrail } from "@/components/ui/mouse-trail";
+import { ParticleSystem } from "@/components/ui/particle-system";
 
 export default function Home() {
   return (
     <main className="relative overflow-hidden bg-slate-950 text-white">
+      {/* Global particle system background */}
+      <ParticleSystem
+        particleCount={60}
+        mouseInteraction={true}
+        colors={[
+          "#3b82f6",
+          "#8b5cf6",
+          "#06b6d4",
+          "#10b981",
+          "#f59e0b",
+          "#ef4444",
+        ]}
+        className="opacity-30"
+      />
       <MouseTrail />
       <HeroSection />
       <WalletConnectionDemo />

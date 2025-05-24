@@ -74,7 +74,7 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden py-20 lg:py-32 min-h-screen flex items-center"
+      className="relative overflow-hidden py-12 sm:py-16 lg:py-32 min-h-screen flex items-center"
     >
       {/* Enhanced 3D background with particle system */}
       <ParticleSystem
@@ -84,19 +84,19 @@ export default function HeroSection() {
       />
       <FloatingShapes />
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="grid gap-12 lg:grid-cols-2 items-center">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6">
+        <div className="grid gap-8 lg:gap-12 lg:grid-cols-2 items-center">
           {/* Main content - follows F-pattern */}
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center order-2 lg:order-1">
             {/* Status indicator with live pulse */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="mb-6 flex items-center space-x-4"
+              className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4"
             >
-              <div className="inline-flex items-center space-x-2 rounded-full bg-blue-500/20 px-4 py-2 text-sm font-medium text-blue-400 border border-blue-500/30">
-                <Zap className="h-4 w-4" />
+              <div className="inline-flex items-center space-x-2 rounded-full bg-blue-500/20 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-blue-400 border border-blue-500/30">
+                <Zap className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>Next-Gen DeFi Optimization</span>
               </div>
               <PulseIndicator />
@@ -105,7 +105,7 @@ export default function HeroSection() {
             {/* Headline with enhanced staggered word reveal */}
             <h1
               ref={headlineRef}
-              className="mb-6 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent"
+              className="mb-4 sm:mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent leading-tight"
             >
               {headlineWords.map((word, i) => (
                 <motion.span
@@ -129,7 +129,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="mb-8 max-w-lg text-xl text-slate-300 leading-relaxed"
+              className="mb-6 sm:mb-8 max-w-lg text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed"
             >
               Stop leaving money on the table. Our AI analyzes thousands of DeFi
               protocols in real-time to find the{" "}
@@ -140,7 +140,7 @@ export default function HeroSection() {
             </motion.p>
 
             {/* Enhanced CTAs with magnetic hover and pulse */}
-            <div className="mb-12 flex flex-wrap gap-4">
+            <div className="mb-8 sm:mb-12 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <div
                 ref={buttonRef}
                 onMouseMove={handleMouseMove}
@@ -175,10 +175,11 @@ export default function HeroSection() {
                 >
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 px-8 py-4 text-lg font-semibold"
+                    className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold"
                   >
-                    <Wallet className="mr-2 h-5 w-5" />
-                    Connect Wallet <ArrowRight className="ml-2 h-5 w-5" />
+                    <Wallet className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    Connect Wallet{" "}
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </motion.div>
               </div>
@@ -190,9 +191,9 @@ export default function HeroSection() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-500 px-8 py-4 text-lg"
+                  className="w-full sm:w-auto border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-500 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
                 >
-                  <Shield className="mr-2 h-5 w-5" />
+                  <Shield className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                   Learn More
                 </Button>
               </motion.div>
@@ -203,53 +204,57 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="grid grid-cols-2 gap-6 sm:grid-cols-4"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"
             >
               <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
+                className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
-                <p className="text-sm text-slate-400 mb-1">
+                <p className="text-xs sm:text-sm text-slate-400 mb-1">
                   Total Value Locked
                 </p>
                 <AnimatedCounter
                   value={1243567890}
                   prefix="$"
-                  className="text-2xl font-bold text-blue-400"
+                  className="text-lg sm:text-2xl font-bold text-blue-400"
                 />
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
+                className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
-                <p className="text-sm text-slate-400 mb-1">Avg. APY Increase</p>
+                <p className="text-xs sm:text-sm text-slate-400 mb-1">
+                  Avg. APY Increase
+                </p>
                 <AnimatedCounter
                   value={32.5}
                   suffix="%"
                   decimals={1}
-                  className="text-2xl font-bold text-green-400"
+                  className="text-lg sm:text-2xl font-bold text-green-400"
                 />
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
+                className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
-                <p className="text-sm text-slate-400 mb-1">
+                <p className="text-xs sm:text-sm text-slate-400 mb-1">
                   Protocols Connected
                 </p>
                 <AnimatedCounter
                   value={42}
-                  className="text-2xl font-bold text-purple-400"
+                  className="text-lg sm:text-2xl font-bold text-purple-400"
                 />
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
+                className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
-                <p className="text-sm text-slate-400 mb-1">Active Users</p>
+                <p className="text-xs sm:text-sm text-slate-400 mb-1">
+                  Active Users
+                </p>
                 <AnimatedCounter
                   value={24689}
-                  className="text-2xl font-bold text-cyan-400"
+                  className="text-lg sm:text-2xl font-bold text-cyan-400"
                 />
               </motion.div>
             </motion.div>
@@ -259,22 +264,22 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-8 flex items-center space-x-6 text-sm text-slate-400"
+              className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-slate-400"
             >
               <div className="flex items-center space-x-2">
-                <Shield className="h-4 w-4 text-green-400" />
+                <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-green-400" />
                 <span>Audited by CertiK</span>
               </div>
               <div className="flex items-center space-x-2">
-                <TrendingUp className="h-4 w-4 text-blue-400" />
+                <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400" />
                 <span>$0 Hacks to Date</span>
               </div>
             </motion.div>
           </div>
 
           {/* Enhanced trust signals and wallet icons */}
-          <div className="flex items-center justify-center">
-            <div className="relative h-[500px] w-[500px]">
+          <div className="flex items-center justify-center order-1 lg:order-2">
+            <div className="relative h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] lg:h-[500px] lg:w-[500px]">
               {/* Enhanced orbiting icons */}
               <OrbitingIcons />
 
@@ -299,7 +304,7 @@ export default function HeroSection() {
                     repeat: Infinity,
                     ease: "linear",
                   }}
-                  className="relative h-40 w-40 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600 p-1"
+                  className="relative h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600 p-1"
                 >
                   <div className="h-full w-full rounded-full bg-slate-950 flex items-center justify-center">
                     <motion.div
@@ -312,7 +317,7 @@ export default function HeroSection() {
                         repeat: Infinity,
                         repeatType: "loop",
                       }}
-                      className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                      className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
                     >
                       AI
                     </motion.div>
@@ -334,10 +339,10 @@ export default function HeroSection() {
                       delay: i * 1,
                     }}
                     style={{
-                      width: `${160 + ring * 40}px`,
-                      height: `${160 + ring * 40}px`,
-                      left: `${-ring * 20}px`,
-                      top: `${-ring * 20}px`,
+                      width: `${120 + ring * 30}px`,
+                      height: `${120 + ring * 30}px`,
+                      left: `${-ring * 15}px`,
+                      top: `${-ring * 15}px`,
                     }}
                   />
                 ))}

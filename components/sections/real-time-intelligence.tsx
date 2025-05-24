@@ -304,15 +304,15 @@ export default function RealTimeIntelligence() {
   };
 
   return (
-    <section ref={ref} className="py-20 lg:py-32 relative">
-      <div className="container mx-auto px-4">
+    <section ref={ref} className="py-8 sm:py-12 lg:py-32 relative">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-6 sm:mb-12 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+            className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
           >
             Real-Time Market Intelligence
           </motion.h2>
@@ -320,16 +320,16 @@ export default function RealTimeIntelligence() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mx-auto max-w-2xl text-lg text-slate-300"
+            className="mx-auto max-w-2xl text-sm sm:text-base md:text-lg text-slate-300 px-4"
           >
             Our AI continuously monitors market conditions and identifies
             optimization opportunities in real-time
           </motion.p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-3">
           {/* AI Agent & Live Insights */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* AI Agent Status */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -337,20 +337,23 @@ export default function RealTimeIntelligence() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
+                <CardHeader className="pb-2 sm:pb-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
+                    <div className="flex items-center space-x-3">
                       <AIAgentAvatar
                         isActive={true}
                         isTalking={aiProcessing}
                         size="lg"
                       />
                       <div>
-                        <CardTitle className="flex items-center space-x-2">
+                        <CardTitle className="flex items-center space-x-2 text-sm sm:text-base md:text-lg">
                           <span>AI Market Agent</span>
                           <PulseIndicator />
                         </CardTitle>
-                        <CardDescription suppressHydrationWarning>
+                        <CardDescription
+                          suppressHydrationWarning
+                          className="text-xs sm:text-sm"
+                        >
                           Analyzing {protocolCount} protocols across{" "}
                           {chainCount} chains
                           {lastUpdated && (
@@ -361,51 +364,19 @@ export default function RealTimeIntelligence() {
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge
-                      variant="outline"
-                      className="border-green-500/20 text-green-400"
-                    >
-                      <CheckCircle className="mr-1 h-3 w-3" />
-                      Active
-                    </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                     <div className="text-center">
-                      <p className="text-sm text-slate-400">
-                        Opportunities Found
+                      <p className="text-xs sm:text-sm text-slate-400">
+                        Confidence Score
                       </p>
-                      <div suppressHydrationWarning>
-                        <AnimatedCounter
-                          value={
-                            insights.filter((i) => i.type === "opportunity")
-                              .length + 47
-                          }
-                          className="text-xl font-bold text-green-400"
-                        />
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm text-slate-400">Risks Mitigated</p>
-                      <AnimatedCounter
-                        value={23}
-                        className="text-xl font-bold text-blue-400"
-                      />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm text-slate-400">
-                        Avg. Response Time
-                      </p>
-                      <p className="text-xl font-bold text-purple-400">0.3s</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm text-slate-400">Confidence Score</p>
                       <AnimatedCounter
                         value={94.7}
                         suffix="%"
                         decimals={1}
-                        className="text-xl font-bold text-cyan-400"
+                        className="text-base sm:text-lg md:text-xl font-bold text-cyan-400"
                       />
                     </div>
                   </div>
@@ -420,13 +391,13 @@ export default function RealTimeIntelligence() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <BarChart3 className="h-5 w-5 text-blue-400" />
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="flex items-center space-x-2 text-sm sm:text-base md:text-lg">
+                    <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400" />
                     <span>Live Market Data</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-2 sm:p-4">
                   <LiveMarketFeed
                     autoRefresh={true}
                     refreshInterval={60 * 60 * 1000}
@@ -442,33 +413,20 @@ export default function RealTimeIntelligence() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Brain className="h-5 w-5 text-purple-400" />
-                      <span>AI Insights</span>
-                    </div>
-                    {aiProcessing && (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{
-                          duration: 1,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                        className="text-blue-400"
-                      >
-                        <Zap className="h-4 w-4" />
-                      </motion.div>
-                    )}
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="flex items-center space-x-2 text-sm sm:text-base md:text-lg">
+                    <Brain className="h-4 w-4 sm:h-5 sm:w-5 text-purple-400" />
+                    <span>AI Insights</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
+                <CardContent className="p-2 sm:p-4">
+                  <div className="space-y-2 sm:space-y-4">
                     {insights.length === 0 && (
-                      <div className="text-center py-8 text-slate-400">
-                        <Brain className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                        <p>AI is analyzing market conditions...</p>
+                      <div className="text-center py-4 sm:py-8 text-slate-400">
+                        <Brain className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 opacity-50" />
+                        <p className="text-xs sm:text-sm md:text-base">
+                          AI is analyzing market conditions...
+                        </p>
                       </div>
                     )}
 
@@ -478,14 +436,16 @@ export default function RealTimeIntelligence() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`p-4 rounded-lg border ${getInsightColor(
+                        className={`p-2 sm:p-4 rounded-lg border ${getInsightColor(
                           insight.type
                         )}`}
                       >
-                        <div className="flex items-start justify-between mb-2">
+                        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 space-y-1 sm:space-y-0">
                           <div className="flex items-center space-x-2">
                             {getInsightIcon(insight.type)}
-                            <h4 className="font-medium">{insight.title}</h4>
+                            <h4 className="font-medium text-xs sm:text-sm md:text-base">
+                              {insight.title}
+                            </h4>
                           </div>
                           <div className="flex items-center space-x-2 text-xs">
                             <span className={getImpactColor(insight.impact)}>
@@ -496,7 +456,7 @@ export default function RealTimeIntelligence() {
                             </Badge>
                           </div>
                         </div>
-                        <p className="text-sm text-slate-300 mb-2">
+                        <p className="text-xs sm:text-sm text-slate-300 mb-2">
                           {insight.description}
                         </p>
                         <div className="flex items-center justify-between text-xs text-slate-400">
@@ -520,7 +480,7 @@ export default function RealTimeIntelligence() {
           </div>
 
           {/* Performance Metrics & Comparison */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Yield Performance Comparison */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
@@ -528,13 +488,15 @@ export default function RealTimeIntelligence() {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="text-lg">Yield Performance</CardTitle>
-                  <CardDescription>
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="text-sm sm:text-base md:text-lg">
+                    Yield Performance
+                  </CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">
                     AI optimization vs traditional methods
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-2 sm:p-4">
                   <RacingBars data={apyComparisonData} />
                 </CardContent>
               </Card>
@@ -547,50 +509,52 @@ export default function RealTimeIntelligence() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="text-lg">Performance Metrics</CardTitle>
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="text-sm sm:text-base md:text-lg">
+                    Performance Metrics
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="p-2 sm:p-4 space-y-2 sm:space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
+                    <span className="text-xs sm:text-sm text-slate-400">
                       24h Volume Analyzed
                     </span>
                     <AnimatedCounter
                       value={847000000}
                       prefix="$"
-                      className="font-medium text-white"
+                      className="font-medium text-white text-xs sm:text-sm md:text-base"
                     />
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
+                    <span className="text-xs sm:text-sm text-slate-400">
                       Optimization Accuracy
                     </span>
                     <AnimatedCounter
                       value={96.8}
                       suffix="%"
                       decimals={1}
-                      className="font-medium text-green-400"
+                      className="font-medium text-green-400 text-xs sm:text-sm md:text-base"
                     />
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
+                    <span className="text-xs sm:text-sm text-slate-400">
                       Gas Fees Saved
                     </span>
                     <AnimatedCounter
                       value={34500}
                       prefix="$"
-                      className="font-medium text-blue-400"
+                      className="font-medium text-blue-400 text-xs sm:text-sm md:text-base"
                     />
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
+                    <span className="text-xs sm:text-sm text-slate-400">
                       Avg. Yield Improvement
                     </span>
                     <AnimatedCounter
                       value={4.3}
                       suffix="%"
                       decimals={1}
-                      className="font-medium text-purple-400"
+                      className="font-medium text-purple-400 text-xs sm:text-sm md:text-base"
                     />
                   </div>
                 </CardContent>
@@ -604,65 +568,44 @@ export default function RealTimeIntelligence() {
               transition={{ duration: 0.5, delay: 0.5 }}
             >
               <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center space-x-2">
-                    <Shield className="h-5 w-5 text-green-400" />
+                <CardHeader className="pb-2 sm:pb-4">
+                  <CardTitle className="text-sm sm:text-base md:text-lg flex items-center space-x-2">
+                    <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
                     <span>Risk Management</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="p-2 sm:p-4 space-y-2 sm:space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">Risk Score</span>
+                    <span className="text-xs sm:text-sm text-slate-400">
+                      Risk Score
+                    </span>
                     <Badge
                       variant="outline"
-                      className="border-green-500/20 text-green-400"
+                      className="border-green-500/20 text-green-400 text-xs"
                     >
                       Low Risk
                     </Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
+                    <span className="text-xs sm:text-sm text-slate-400">
                       Diversification
                     </span>
-                    <span className="font-medium text-blue-400">Optimal</span>
+                    <span className="font-medium text-blue-400 text-xs sm:text-sm md:text-base">
+                      Optimal
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
+                    <span className="text-xs sm:text-sm text-slate-400">
                       Insurance Coverage
                     </span>
                     <AnimatedCounter
                       value={95}
                       suffix="%"
-                      className="font-medium text-purple-400"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-slate-400">
-                      Emergency Reserves
-                    </span>
-                    <AnimatedCounter
-                      value={15}
-                      suffix="%"
-                      className="font-medium text-cyan-400"
+                      className="font-medium text-purple-400 text-xs sm:text-sm md:text-base"
                     />
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-
-            {/* Action Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <Button
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 py-6"
-                size="lg"
-              >
-                <Brain className="mr-2 h-5 w-5" />
-                Activate AI Optimization
-              </Button>
             </motion.div>
           </div>
         </div>

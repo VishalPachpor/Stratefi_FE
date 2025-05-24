@@ -233,7 +233,7 @@ export function LiveMarketFeed({
       </div>
 
       {/* Market Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {marketData.map((item, index) => (
           <MarketCard key={item.symbol} data={item} index={index} />
         ))}
@@ -257,7 +257,7 @@ function MarketCard({ data, index }: MarketCardProps) {
       transition={{ delay: index * 0.1 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="relative p-6 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300"
+      className="relative p-3 sm:p-4 md:p-6 bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300"
     >
       {/* Glowing effect on hover */}
       <motion.div
@@ -268,14 +268,18 @@ function MarketCard({ data, index }: MarketCardProps) {
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <span className="text-sm font-bold">{data.symbol}</span>
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+              <span className="text-xs sm:text-sm font-bold">
+                {data.symbol}
+              </span>
             </div>
             <div>
-              <h3 className="font-semibold text-white">{data.symbol}</h3>
-              <p className="text-xs text-slate-400">
+              <h3 className="font-semibold text-white text-sm sm:text-base">
+                {data.symbol}
+              </h3>
+              <p className="text-[10px] sm:text-xs text-slate-400">
                 Market Cap: {data.marketCap}
               </p>
             </div>
@@ -286,59 +290,47 @@ function MarketCard({ data, index }: MarketCardProps) {
             }`}
           >
             {data.changePercent >= 0 ? (
-              <TrendingUp className="h-4 w-4" />
+              <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
             ) : (
-              <TrendingDown className="h-4 w-4" />
+              <TrendingDown className="h-3 w-3 sm:h-4 sm:w-4" />
             )}
-            <span className="text-sm font-medium">
+            <span className="text-xs sm:text-sm font-medium">
               {data.changePercent.toFixed(2)}%
             </span>
           </div>
         </div>
 
-        {/* Price */}
-        <div className="mb-4">
-          <AnimatedCounter
-            value={data.price}
-            prefix="$"
-            decimals={2}
-            className="text-2xl font-bold text-white"
-          />
-          <p className="text-sm text-slate-400">
-            <span
-              className={data.change >= 0 ? "text-green-400" : "text-red-400"}
-            >
-              {data.change >= 0 ? "+" : ""}${data.change.toFixed(2)}
-            </span>{" "}
-            today
-          </p>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <p className="text-slate-400">Volume</p>
-            <p className="font-semibold text-white">{data.volume}</p>
+        {/* Price and Volume */}
+        <div className="space-y-2 sm:space-y-3">
+          <div className="flex justify-between items-center">
+            <span className="text-xs sm:text-sm text-slate-400">Price</span>
+            <AnimatedCounter
+              value={data.price}
+              prefix="$"
+              decimals={2}
+              className="text-sm sm:text-base font-medium text-white"
+              enableFlip={false}
+            />
           </div>
-          <div>
-            <p className="text-slate-400">APY</p>
+          <div className="flex justify-between items-center">
+            <span className="text-xs sm:text-sm text-slate-400">
+              24h Volume
+            </span>
+            <span className="text-xs sm:text-sm font-medium text-slate-300">
+              {data.volume}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-xs sm:text-sm text-slate-400">APY</span>
             <AnimatedCounter
               value={data.apy}
               suffix="%"
               decimals={1}
-              className="font-semibold text-green-400"
+              className="text-xs sm:text-sm font-medium text-green-400"
+              enableFlip={false}
             />
           </div>
         </div>
-
-        {/* Optimize Button */}
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full mt-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
-        >
-          Optimize Yield
-        </motion.button>
       </div>
     </motion.div>
   );

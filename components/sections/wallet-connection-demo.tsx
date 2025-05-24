@@ -425,21 +425,21 @@ export default function WalletConnectionDemo() {
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="font-medium">
+                              <div className="font-medium">
                                 <AnimatedCounter
                                   value={asset.balance}
                                   decimals={asset.symbol === "USDC" ? 0 : 2}
                                   enableFlip={false}
                                 />{" "}
                                 {asset.symbol}
-                              </p>
-                              <p className="text-sm text-slate-400">
+                              </div>
+                              <div className="text-sm text-slate-400">
                                 <AnimatedCounter
                                   value={asset.value}
                                   prefix="$"
                                   enableFlip={false}
                                 />
-                              </p>
+                              </div>
                             </div>
                             <motion.div
                               animate={{
@@ -510,7 +510,7 @@ export default function WalletConnectionDemo() {
                                         Optimize Yield
                                       </Button>
                                     </motion.div>
-                                    <p className="text-xs text-slate-400 mt-2 text-center">
+                                    <div className="text-xs text-slate-400 mt-2 text-center">
                                       Potential additional revenue:
                                       <span className="text-green-400 font-medium ml-1">
                                         <AnimatedCounter
@@ -524,7 +524,7 @@ export default function WalletConnectionDemo() {
                                         />
                                         /year
                                       </span>
-                                    </p>
+                                    </div>
                                   </div>
                                 </div>
                               </CardContent>

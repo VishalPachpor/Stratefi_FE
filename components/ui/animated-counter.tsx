@@ -25,7 +25,7 @@ export function AnimatedCounter({
   enableFlip = true,
 }: AnimatedCounterProps) {
   const [displayValue, setDisplayValue] = useState("0");
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true });
   const animationRef = useRef<number>();
   const currentValueRef = useRef(0);
@@ -87,11 +87,11 @@ export function AnimatedCounter({
 
   if (!enableFlip) {
     return (
-      <div ref={ref} className={className}>
+      <span ref={ref} className={className}>
         {prefix}
         {displayValue}
         {suffix}
-      </div>
+      </span>
     );
   }
 

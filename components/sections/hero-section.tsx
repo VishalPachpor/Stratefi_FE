@@ -3,7 +3,12 @@
 import type React from "react";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+  useInView,
+  useAnimationControls,
+} from "framer-motion";
 import { ArrowRight, Wallet, Shield, Zap, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSplitText } from "@/hooks/use-split-text";
@@ -13,12 +18,14 @@ import { OrbitingIcons } from "@/components/ui/orbiting-icons";
 import { ParticleSystem } from "@/components/ui/particle-system";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { PulseIndicator } from "@/components/ui/live-market-feed";
+import { CuteRobot } from "@/components/ui/cute-robot";
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
   const controls = useAnimation();
   const [isHovering, setIsHovering] = useState(false);
+  const floatControls = useAnimationControls();
 
   // Split text animation for headline
   const headlineRef = useRef<HTMLHeadingElement>(null);
@@ -43,6 +50,18 @@ export default function HeroSection() {
       controls.start("visible");
     }
   }, [controls, isInView]);
+
+  useEffect(() => {
+    floatControls.start({
+      y: [0, -20, 0],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut",
+      },
+    });
+  }, [floatControls]);
 
   // Magnetic button effect
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -82,7 +101,6 @@ export default function HeroSection() {
         mouseInteraction={true}
         colors={["#3b82f6", "#8b5cf6", "#06b6d4", "#10b981", "#f59e0b"]}
       />
-      <FloatingShapes />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6">
         <div className="grid gap-8 lg:gap-12 lg:grid-cols-2 items-center">
@@ -279,75 +297,57 @@ export default function HeroSection() {
 
           {/* Enhanced trust signals and wallet icons */}
           <div className="flex items-center justify-center order-1 lg:order-2">
-            <div className="relative h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] lg:h-[500px] lg:w-[500px]">
-              {/* Enhanced orbiting icons */}
-              <OrbitingIcons />
-
-              {/* Central hub with enhanced effects */}
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{
-                  duration: 1,
-                  delay: 0.4,
-                  type: "spring",
-                  stiffness: 100,
-                }}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              >
+            <motion.div
+              className="relative min-h-[340px] min-w-[340px] h-[340px] w-[340px] sm:h-[400px] sm:w-[400px] lg:h-[500px] lg:w-[500px]"
+              animate={floatControls}
+            >
+              {/* Orbiting icons in the background */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 flex items-center justify-center">
+                <OrbitingIcons />
+              </div>
+              {/* Robot in the foreground */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center">
                 <motion.div
-                  animate={{
-                    rotate: [0, 360],
-                  }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={isInView ? { scale: 1, opacity: 1 } : {}}
                   transition={{
-                    duration: 20,
-                    repeat: Infinity,
-                    ease: "linear",
+                    duration: 1,
+                    delay: 0.4,
+                    type: "spring",
+                    stiffness: 100,
                   }}
-                  className="relative h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600 p-1"
+                  className="flex items-center justify-center w-full h-full"
                 >
-                  <div className="h-full w-full rounded-full bg-slate-950 flex items-center justify-center">
+                  <div className="relative h-24 w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40 rounded-full bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600 p-1">
+                    <div className="h-full w-full rounded-full bg-slate-950 flex items-center justify-center">
+                      <CuteRobot size="lg" />
+                    </div>
+                  </div>
+                  {/* Pulsing rings */}
+                  {[1, 2, 3].map((ring, i) => (
                     <motion.div
+                      key={ring}
+                      className="absolute inset-0 rounded-full border border-blue-500/20"
                       animate={{
-                        scale: [1, 1.1, 1],
-                        opacity: [0.8, 1, 0.8],
+                        scale: [1, 1.5, 2],
+                        opacity: [0.5, 0.2, 0],
                       }}
                       transition={{
-                        duration: 2,
+                        duration: 3,
                         repeat: Infinity,
-                        repeatType: "loop",
+                        delay: i * 1,
                       }}
-                      className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-                    >
-                      AI
-                    </motion.div>
-                  </div>
+                      style={{
+                        width: `${120 + ring * 30}px`,
+                        height: `${120 + ring * 30}px`,
+                        left: `${-ring * 15}px`,
+                        top: `${-ring * 15}px`,
+                      }}
+                    />
+                  ))}
                 </motion.div>
-
-                {/* Pulsing rings */}
-                {[1, 2, 3].map((ring, i) => (
-                  <motion.div
-                    key={ring}
-                    className="absolute inset-0 rounded-full border border-blue-500/20"
-                    animate={{
-                      scale: [1, 1.5, 2],
-                      opacity: [0.5, 0.2, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: i * 1,
-                    }}
-                    style={{
-                      width: `${120 + ring * 30}px`,
-                      height: `${120 + ring * 30}px`,
-                      left: `${-ring * 15}px`,
-                      top: `${-ring * 15}px`,
-                    }}
-                  />
-                ))}
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

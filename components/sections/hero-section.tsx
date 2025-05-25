@@ -226,13 +226,13 @@ export default function HeroSection() {
             >
               <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
+                className="flex flex-col items-center justify-center text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
                 <p className="text-xs sm:text-sm text-slate-400 mb-1">
                   Total Value Locked
                 </p>
                 <AnimatedCounter
-                  value={1243567890}
+                  value={456789}
                   prefix="$"
                   className="text-lg sm:text-2xl font-bold text-blue-400"
                 />

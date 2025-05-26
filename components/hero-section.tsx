@@ -68,7 +68,7 @@ export default function HeroSection() {
                   size="lg"
                   className="bg-blue-600 text-white hover:bg-blue-700"
                 >
-                  Connect Wallet <ArrowRight className="ml-2 h-4 w-4" />
+                  Soon <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </motion.div>
 

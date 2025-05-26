@@ -9,7 +9,14 @@ import {
   useInView,
   useAnimationControls,
 } from "framer-motion";
-import { ArrowRight, Wallet, Shield, Zap, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  Wallet,
+  Shield,
+  Zap,
+  TrendingUp,
+  Link,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSplitText } from "@/hooks/use-split-text";
 import { useCountUp } from "@/hooks/use-count-up";
@@ -30,7 +37,7 @@ export default function HeroSection() {
   // Split text animation for headline
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const { words: headlineWords } = useSplitText(
-    "Maximize Your DeFi Returns with AI-Powered Optimization",
+    "Intelligent Autonomous DeFAI",
     headlineRef
   );
 
@@ -196,8 +203,7 @@ export default function HeroSection() {
                     className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold"
                   >
                     <Wallet className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                    Connect Wallet{" "}
-                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    Soon <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </motion.div>
               </div>
@@ -212,7 +218,12 @@ export default function HeroSection() {
                   className="w-full sm:w-auto border-slate-600 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-500 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
                 >
                   <Shield className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                  Learn More
+                  <a
+                    href="https://app.youform.com/forms/bbbn2d9r"
+                    target="_blank"
+                  >
+                    Early Access
+                  </a>
                 </Button>
               </motion.div>
             </div>
@@ -224,7 +235,7 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6"
             >
-              <motion.div
+              {/* <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="flex flex-col items-center justify-center text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
@@ -236,8 +247,8 @@ export default function HeroSection() {
                   prefix="$"
                   className="text-lg sm:text-2xl font-bold text-blue-400"
                 />
-              </motion.div>
-              <motion.div
+              </motion.div> */}
+              {/* <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
@@ -250,8 +261,8 @@ export default function HeroSection() {
                   decimals={1}
                   className="text-lg sm:text-2xl font-bold text-green-400"
                 />
-              </motion.div>
-              <motion.div
+              </motion.div> */}
+              {/* <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="text-center p-3 sm:p-4 rounded-xl bg-slate-900/30 backdrop-blur-sm border border-slate-700/50"
               >
@@ -274,7 +285,7 @@ export default function HeroSection() {
                   value={24689}
                   className="text-lg sm:text-2xl font-bold text-cyan-400"
                 />
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             {/* Trust indicators */}
@@ -284,14 +295,14 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-slate-400"
             >
-              <div className="flex items-center space-x-2">
+              {/* <div className="flex items-center space-x-2">
                 <Shield className="h-3 w-3 sm:h-4 sm:w-4 text-green-400" />
                 <span>Audited by CertiK</span>
               </div>
               <div className="flex items-center space-x-2">
                 <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-blue-400" />
                 <span>$0 Hacks to Date</span>
-              </div>
+              </div> */}
             </motion.div>
           </div>
 

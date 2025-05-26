@@ -28,11 +28,11 @@ export default function Home() {
       />
       <MouseTrail />
       <HeroSection />
-      <WalletConnectionDemo />
+      {/* <WalletConnectionDemo /> */}
       <ModeComparison />
       <AssetOptimization />
       <RealTimeIntelligence />
-      <RiskManagement />
+      {/* <RiskManagement /> */}
       <HowItWorks />
       <Footer />
     </main>

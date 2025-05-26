@@ -352,7 +352,7 @@ export function PulseIndicator({ className = "" }: { className?: string }) {
           repeatType: "loop",
         }}
       />
-      <span className="text-xs text-green-400 font-medium">LIVE</span>
+      <span className="text-xs text-green-400 font-medium">Cooking</span>
     </div>
   );
 }

@@ -17,34 +17,37 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
 const footerLinks = {
-  product: [
-    { name: "Features", href: "#features" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "Security", href: "#security" },
-    { name: "API Docs", href: "#api" },
-    { name: "Roadmap", href: "#roadmap" },
-  ],
+  // product: [
+  //   { name: "Features", href: "#features" },
+  //   // { name: "Pricing", href: "#pricing" },
+  //   { name: "Security", href: "#security" },
+  //   // { name: "API Docs", href: "#api" },
+  //   // { name: "Roadmap", href: "#roadmap" },
+  // ],
   company: [
-    { name: "About Us", href: "#about" },
-    { name: "Careers", href: "#careers" },
-    { name: "Press Kit", href: "#press" },
-    { name: "Contact", href: "#contact" },
-    { name: "Blog", href: "#blog" },
+    { name: "X", href: "https://x.com/stratifixyz" },
+    { name: "Telegram", href: "https://t.me/stratifixyz" },
+    { name: "Discord", href: "https://discord.gg/mwaP3SRz2e" },
+    // { name: "Contact", href: "#contact" },
+    // { name: "Blog", href: "#blog" },
   ],
   resources: [
-    { name: "Help Center", href: "#help" },
-    { name: "Community", href: "#community" },
-    { name: "Tutorials", href: "#tutorials" },
-    { name: "Webinars", href: "#webinars" },
-    { name: "Status Page", href: "#status" },
+    {
+      name: "Docs",
+      href: "https://docs.stratifi.xyz/docs/category/stratifi-ai-agent",
+    },
+    // { name: "Community", href: "#community" },
+    // { name: "Tutorials", href: "#tutorials" },
+    // { name: "Webinars", href: "#webinars" },
+    // { name: "Status Page", href: "#status" },
   ],
-  legal: [
-    { name: "Privacy Policy", href: "#privacy" },
-    { name: "Terms of Service", href: "#terms" },
-    { name: "Cookie Policy", href: "#cookies" },
-    { name: "Compliance", href: "#compliance" },
-    { name: "Licenses", href: "#licenses" },
-  ],
+  // legal: [
+  //   // { name: "Privacy Policy", href: "#privacy" },
+  //   // { name: "Terms of Service", href: "#terms" },
+  //   // { name: "Cookie Policy", href: "#cookies" },
+  //   // { name: "Compliance", href: "#compliance" },
+  //   // { name: "Licenses", href: "#licenses" },
+  // ],
 };
 
 const socialLinks = [
@@ -54,18 +57,18 @@ const socialLinks = [
     href: "#twitter",
     color: "hover:text-blue-400",
   },
-  {
-    name: "LinkedIn",
-    icon: Linkedin,
-    href: "#linkedin",
-    color: "hover:text-blue-600",
-  },
-  {
-    name: "GitHub",
-    icon: Github,
-    href: "#github",
-    color: "hover:text-gray-400",
-  },
+  // {
+  //   name: "LinkedIn",
+  //   icon: Linkedin,
+  //   href: "#linkedin",
+  //   color: "hover:text-blue-600",
+  // },
+  // {
+  //   name: "GitHub",
+  //   icon: Github,
+  //   href: "#github",
+  //   color: "hover:text-gray-400",
+  // },
   {
     name: "Discord",
     icon: MessageCircle,
@@ -111,18 +114,16 @@ export default function Footer() {
                   <span className="text-white font-bold text-lg">D</span>
                 </div>
                 <span className="text-2xl font-bold text-white">
-                  DeFi Platform
+                  StratiFi AI Agent
                 </span>
               </div>
 
               <p className="text-slate-400 mb-8 leading-relaxed">
-                Maximize your DeFi returns with AI-powered optimization. Join
-                thousands of users who trust our platform to manage their crypto
-                investments safely and profitably.
+                Intelligent Autonomous DeFi
               </p>
 
               {/* Newsletter Signup */}
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <h4 className="text-white font-semibold mb-4">Stay Updated</h4>
                 <div className="flex gap-2">
                   <Input
@@ -136,10 +137,10 @@ export default function Footer() {
                 <p className="text-xs text-slate-500 mt-2">
                   Get weekly updates on market insights and platform features.
                 </p>
-              </div>
+              </div> */}
 
               {/* Social Links */}
-              <div className="flex space-x-4">
+              {/* <div className="flex space-x-4">
                 {socialLinks.map((social) => (
                   <a
                     key={social.name}
@@ -150,7 +151,7 @@ export default function Footer() {
                     <social.icon className="h-5 w-5" />
                   </a>
                 ))}
-              </div>
+              </div> */}
             </motion.div>
 
             {/* Links Sections */}
@@ -170,6 +171,7 @@ export default function Footer() {
                     <li key={link.name}>
                       <a
                         href={link.href}
+                        target="_blank"
                         className="text-slate-400 hover:text-white transition-colors duration-200"
                       >
                         {link.name}
@@ -182,7 +184,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Information */}
-          <motion.div
+          {/*<motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.6 }}
@@ -207,7 +209,7 @@ export default function Footer() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </motion.div>*/}
         </div>
 
         <Separator className="bg-slate-800" />
@@ -222,13 +224,13 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 mb-4 md:mb-0">
               <p className="text-slate-400 text-sm">
-                © 2024 DeFi Platform. All rights reserved.
+                © 2025 StratiFi. All rights reserved.
               </p>
-              <div className="flex items-center space-x-4 text-sm text-slate-500">
+              {/* <div className="flex items-center space-x-4 text-sm text-slate-500">
                 <span>🔒 SOC 2 Certified</span>
                 <span>🛡️ GDPR Compliant</span>
                 <span>⚡ 99.9% Uptime</span>
-              </div>
+              </div> */}
             </div>
 
             {/* Back to Top */}

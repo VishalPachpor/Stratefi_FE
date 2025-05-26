@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 
 export const metadata: Metadata = {
-  title: "Stratefi - AI Yield Optimizer",
+  title: "StratiFi AI Agent - DeFAI",
   description:
     "Advanced DeFi yield optimization powered by AI. Maximize your returns with intelligent strategy selection and real-time market analysis.",
   generator: "Stratefi",

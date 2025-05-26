@@ -180,7 +180,7 @@ export default function Navbar() {
               </motion.div>
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Stratefi
+                  StratiFi
                 </h1>
                 <p className="text-xs text-slate-400 -mt-1">
                   AI Yield Optimizer
@@ -195,7 +195,7 @@ export default function Navbar() {
               ))}
 
               {/* More Dropdown */}
-              <div
+              {/* <div
                 className="relative"
                 onMouseEnter={() => setActiveDropdown("more")}
                 onMouseLeave={() => setActiveDropdown(null)}
@@ -260,13 +260,13 @@ export default function Navbar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </div> */}
             </div>
 
             {/* Right Section */}
             <div className="flex items-center space-x-4">
               {/* Wallet Connection */}
-              <Button
+              {/* <Button
                 onClick={connectWallet}
                 className={cn(
                   "hidden sm:flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300",
@@ -280,7 +280,7 @@ export default function Navbar() {
                 <span>
                   {isWalletConnected ? "0x1234...5678" : "Connect Wallet"}
                 </span>
-              </Button>
+              </Button> */}
 
               {/* User Menu (when connected) */}
               {isWalletConnected && (
@@ -355,7 +355,7 @@ export default function Navbar() {
                 ))}
 
                 {/* Mobile Wallet Connection */}
-                <Button
+                {/* <Button
                   onClick={connectWallet}
                   className={cn(
                     "w-full flex items-center justify-center space-x-2 py-3 rounded-lg transition-all duration-300",
@@ -368,7 +368,7 @@ export default function Navbar() {
                   <span>
                     {isWalletConnected ? "0x1234...5678" : "Connect Wallet"}
                   </span>
-                </Button>
+                </Button> */}
               </div>
             </motion.div>
           )}

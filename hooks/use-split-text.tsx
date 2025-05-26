@@ -6,9 +6,9 @@ interface UseSplitTextOptions {
   splitBy?: "words" | "chars";
 }
 
-export function useSplitText(
+export function useSplitText<T extends HTMLElement>(
   text: string,
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<T | null>,
   options: UseSplitTextOptions = { splitBy: "words" }
 ) {
   const [words, setWords] = useState<string[]>([]);

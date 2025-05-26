@@ -36,7 +36,7 @@ export default function HeroSection() {
 
   // Split text animation for headline
   const headlineRef = useRef<HTMLHeadingElement>(null);
-  const { words: headlineWords } = useSplitText(
+  const { words: headlineWords } = useSplitText<HTMLHeadingElement>(
     "Intelligent Autonomous DeFAI",
     headlineRef
   );

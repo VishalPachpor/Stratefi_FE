@@ -25,11 +25,11 @@ export function AnimatedCounter({
   enableFlip = true,
 }: AnimatedCounterProps) {
   const [displayValue, setDisplayValue] = useState("0");
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
-  const animationRef = useRef<number>();
-  const currentValueRef = useRef(0);
-  const isAnimatingRef = useRef(false);
+  const animationRef = useRef<number | undefined>(undefined);
+  const currentValueRef = useRef<number>(0);
+  const isAnimatingRef = useRef<boolean>(false);
 
   // Single effect to handle all animations
   useEffect(() => {

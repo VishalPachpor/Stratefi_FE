@@ -25,8 +25,8 @@ export function useCountUp({
 }: UseCountUpOptions) {
   const [current, setCurrent] = useState(start);
   const [isAnimating, setIsAnimating] = useState(false);
-  const animationRef = useRef<number>();
-  const startTimeRef = useRef<number>();
+  const animationRef = useRef<number | undefined>(undefined);
+  const startTimeRef = useRef<number | undefined>(undefined);
 
   const formatNumber = (num: number) => {
     const fixedNum =

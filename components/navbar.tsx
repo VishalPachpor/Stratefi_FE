@@ -58,7 +58,7 @@ const navLinks: NavLink[] = [
   },
   {
     href: "https://docs.stratifi.xyz/",
-    label: "Docs",
+    label: "Whitepaper",
     icon: <Book className="h-4 w-4" />,
     description: "Platform documentation",
     external: true,

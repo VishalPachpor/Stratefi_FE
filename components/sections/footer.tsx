@@ -33,16 +33,13 @@ const footerLinks = {
     { name: "Discord", href: "https://discord.gg/mwaP3SRz2e" },
     { name: "Contact Us", href: "/contacts" },
     { name: "Privacy Policy", href: "/privacy-policy" },
-
   ],
   resources: [
     {
       name: "Docs",
       href: "https://docs.stratifi.xyz/docs/category/stratifi-ai-agent",
     },
-   
   ],
-
 };
 
 const socialLinks = [
@@ -52,7 +49,7 @@ const socialLinks = [
     href: "#twitter",
     color: "hover:text-blue-400",
   },
- 
+
   {
     name: "Discord",
     icon: MessageCircle,
@@ -173,7 +170,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     className="text-slate-400 hover:text-white transition-colors"
                   >
-                    Docs
+                    Whitepaper
                   </a>
                 </li>
               </ul>

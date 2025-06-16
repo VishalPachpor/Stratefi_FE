@@ -6,7 +6,6 @@ import RealTimeIntelligence from "@/components/sections/real-time-intelligence";
 import RiskManagement from "@/components/sections/risk-management";
 import HowItWorks from "@/components/sections/how-it-works";
 import Footer from "@/components/sections/footer";
-import { MouseTrail } from "@/components/ui/mouse-trail";
 import { ParticleSystem } from "@/components/ui/particle-system";
 
 export default function Home() {
@@ -15,7 +14,7 @@ export default function Home() {
       {/* Global particle system background */}
       <ParticleSystem
         particleCount={60}
-        mouseInteraction={true}
+        mouseInteraction={false}
         colors={[
           "#3b82f6",
           "#8b5cf6",
@@ -26,7 +25,6 @@ export default function Home() {
         ]}
         className="opacity-30"
       />
-      <MouseTrail />
       <HeroSection />
       {/* <WalletConnectionDemo /> */}
       <ModeComparison />

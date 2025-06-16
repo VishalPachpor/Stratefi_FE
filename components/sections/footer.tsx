@@ -11,10 +11,13 @@ import {
   Linkedin,
   MessageCircle,
   ArrowUp,
+  X,
+  Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 const footerLinks = {
   // product: [
@@ -28,26 +31,18 @@ const footerLinks = {
     { name: "X", href: "https://x.com/stratifixyz" },
     { name: "Telegram", href: "https://t.me/stratifixyz" },
     { name: "Discord", href: "https://discord.gg/mwaP3SRz2e" },
-    // { name: "Contact", href: "#contact" },
-    // { name: "Blog", href: "#blog" },
+    { name: "Contact Us", href: "/contacts" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+
   ],
   resources: [
     {
       name: "Docs",
       href: "https://docs.stratifi.xyz/docs/category/stratifi-ai-agent",
     },
-    // { name: "Community", href: "#community" },
-    // { name: "Tutorials", href: "#tutorials" },
-    // { name: "Webinars", href: "#webinars" },
-    // { name: "Status Page", href: "#status" },
+   
   ],
-  // legal: [
-  //   // { name: "Privacy Policy", href: "#privacy" },
-  //   // { name: "Terms of Service", href: "#terms" },
-  //   // { name: "Cookie Policy", href: "#cookies" },
-  //   // { name: "Compliance", href: "#compliance" },
-  //   // { name: "Licenses", href: "#licenses" },
-  // ],
+
 };
 
 const socialLinks = [
@@ -57,18 +52,7 @@ const socialLinks = [
     href: "#twitter",
     color: "hover:text-blue-400",
   },
-  // {
-  //   name: "LinkedIn",
-  //   icon: Linkedin,
-  //   href: "#linkedin",
-  //   color: "hover:text-blue-600",
-  // },
-  // {
-  //   name: "GitHub",
-  //   icon: Github,
-  //   href: "#github",
-  //   color: "hover:text-gray-400",
-  // },
+ 
   {
     name: "Discord",
     icon: MessageCircle,
@@ -96,160 +80,141 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={ref} className="bg-slate-950 border-t border-slate-800">
+    <footer className="bg-slate-950 border-t border-slate-800 pt-16 pb-8">
       <div className="container mx-auto px-4">
-        {/* Main Footer Content */}
-        <div className="py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-12">
-            {/* Company Info & Newsletter */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-2"
-            >
-              {/* Logo */}
-              <div className="flex items-center mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mr-3">
-                  <span className="text-white font-bold text-lg">D</span>
-                </div>
-                <span className="text-2xl font-bold text-white">
-                  StratiFi AI Agent
-                </span>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-12">
+          {/* Logo */}
+          <div className="flex-1 mb-8 md:mb-0 flex flex-col items-center md:items-start">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mr-3">
+                <span className="text-white font-bold text-lg">S</span>
               </div>
-
-              <p className="text-slate-400 mb-8 leading-relaxed">
-                Intelligent Autonomous DeFi
-              </p>
-
-              {/* Newsletter Signup */}
-              {/* <div className="mb-8">
-                <h4 className="text-white font-semibold mb-4">Stay Updated</h4>
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter your email"
-                    className="bg-slate-900 border-slate-700 text-white placeholder:text-slate-500"
-                  />
-                  <Button className="bg-blue-600 hover:bg-blue-700 px-6">
-                    Subscribe
-                  </Button>
-                </div>
-                <p className="text-xs text-slate-500 mt-2">
-                  Get weekly updates on market insights and platform features.
-                </p>
-              </div> */}
-
-              {/* Social Links */}
-              {/* <div className="flex space-x-4">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    className={`p-2 rounded-lg bg-slate-900 border border-slate-800 ${social.color} transition-colors duration-200`}
-                    aria-label={social.name}
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </a>
-                ))}
-              </div> */}
-            </motion.div>
-
-            {/* Links Sections */}
-            {Object.entries(footerLinks).map(([category, links], index) => (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 * (index + 1) }}
-                className="lg:col-span-1"
+              <span className="text-2xl font-bold text-white">StratiFi</span>
+            </div>
+            {/* Social Icons below logo */}
+            <div className="flex justify-center gap-8 mt-4 mb-2">
+              <a
+                href="https://x.com/stratifixyz"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+                className="text-slate-400 hover:text-white transition-colors"
               >
-                <h4 className="text-white font-semibold mb-6 capitalize">
-                  {category === "legal" ? "Legal" : category}
-                </h4>
-                <ul className="space-y-3">
-                  {links.map((link) => (
-                    <li key={link.name}>
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        className="text-slate-400 hover:text-white transition-colors duration-200"
-                      >
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+                <X className="w-7 h-7" />
+              </a>
+              <a
+                href="https://t.me/stratifixyz"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram"
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <Send className="w-7 h-7" />
+              </a>
+              <a
+                href="https://discord.gg/mwaP3SRz2e"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Discord"
+                className="text-slate-400 hover:text-white transition-colors"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-7 h-7"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8732.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1835 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.1046 2.1568 2.4189 0 1.3333-.9555 2.419-2.1569 2.419zm7.9748 0c-1.1836 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.1046 2.1568 2.4189 0 1.3333-.946 2.419-2.1568 2.419Z" />
+                </svg>
+              </a>
+            </div>
           </div>
 
-          {/* Contact Information */}
-          {/*<motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-16 pt-12 border-t border-slate-800"
-          >
-            <h4 className="text-white font-semibold mb-8 text-center">
-              Get in Touch
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {contactInfo.map((contact, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-center md:justify-start"
-                >
-                  <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 mr-4">
-                    <contact.icon className="h-5 w-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500">{contact.label}</p>
-                    <p className="text-white">{contact.value}</p>
-                  </div>
-                </div>
-              ))}
+          {/* Footer Columns */}
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8 w-full">
+            {/* Products */}
+            <div>
+              <h4 className="text-white font-bold mb-4">Products</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    href="/portfolio"
+                    className="text-slate-400 hover:text-white transition-colors"
+                  >
+                    Portfolio
+                  </Link>
+                </li>
+                {/* Add more product links if available */}
+              </ul>
             </div>
-          </motion.div>*/}
+            {/* Company */}
+            <div>
+              <h4 className="text-white font-bold mb-4">Company</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    href="/contacts"
+                    className="text-slate-400 hover:text-white transition-colors"
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+                {/* Add more company links if available */}
+              </ul>
+            </div>
+            {/* Resources */}
+            <div>
+              <h4 className="text-white font-bold mb-4">Resources</h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="https://docs.stratifi.xyz/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-slate-400 hover:text-white transition-colors"
+                  >
+                    Docs
+                  </a>
+                </li>
+              </ul>
+            </div>
+            {/* Developers */}
+            <div>
+              <h4 className="text-white font-bold mb-4">Developers</h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="/api"
+                    className="text-slate-400 hover:text-white transition-colors"
+                  >
+                    API/SDK
+                  </a>
+                </li>
+                {/* Add more developer links if available */}
+              </ul>
+            </div>
+          </div>
         </div>
 
-        <Separator className="bg-slate-800" />
-
-        {/* Bottom Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="py-8"
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 mb-4 md:mb-0">
-              <p className="text-slate-400 text-sm">
-                © 2025 StratiFi. All rights reserved.
-              </p>
-              {/* <div className="flex items-center space-x-4 text-sm text-slate-500">
-                <span>🔒 SOC 2 Certified</span>
-                <span>🛡️ GDPR Compliant</span>
-                <span>⚡ 99.9% Uptime</span>
-              </div> */}
-            </div>
-
-            {/* Back to Top */}
-            <Button
-              onClick={scrollToTop}
-              variant="outline"
-              size="sm"
-              className="border-slate-700 text-slate-400 hover:text-white hover:border-slate-600"
+        {/* Bottom Legal Bar */}
+        <div className="mt-12 border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <span className="text-slate-400 text-sm">
+            © Stratifi {new Date().getFullYear()}
+          </span>
+          <div className="flex gap-8">
+            <a
+              href="/privacy-policy"
+              className="text-slate-400 hover:text-white text-sm transition-colors"
             >
-              <ArrowUp className="h-4 w-4 mr-2" />
-              Back to Top
-            </Button>
+              Privacy Policy
+            </a>
+            <a
+              href="/terms"
+              className="text-slate-400 hover:text-white text-sm transition-colors"
+            >
+              Terms and conditions
+            </a>
           </div>
-        </motion.div>
-
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-32 h-32 bg-purple-500 rounded-full blur-3xl" />
         </div>
       </div>
     </footer>

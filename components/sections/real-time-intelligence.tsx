@@ -418,7 +418,7 @@ export default function RealTimeIntelligence() {
                 AI Insights
               </h3>
               <div className="flex items-center space-x-2">
-                <AIAgentAvatar processing={aiProcessing} />
+                <AIAgentAvatar isActive={aiProcessing} />
                 <span className="text-xs sm:text-sm text-slate-400">
                   {lastUpdated
                     ? `Updated ${lastUpdated.toLocaleTimeString()}`

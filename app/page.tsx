@@ -23,16 +23,20 @@ export default function Home() {
           "#f59e0b",
           "#ef4444",
         ]}
-        className="opacity-30"
+        className="opacity-30 mt-20"
       />
-      <HeroSection />
-      {/* <WalletConnectionDemo /> */}
-      <ModeComparison />
-      <AssetOptimization />
-      <RealTimeIntelligence />
-      {/* <RiskManagement /> */}
-      <HowItWorks />
-      <Footer />
+
+      {/* Consistent container wrapper for all sections */}
+      <div className="mx-auto max-w-6xl">
+        <HeroSection />
+        {/* <WalletConnectionDemo /> */}
+        <ModeComparison />
+        <AssetOptimization />
+        <RealTimeIntelligence />
+        {/* <RiskManagement /> */}
+        <HowItWorks />
+        <Footer />
+      </div>
     </main>
   );
 }

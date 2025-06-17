@@ -77,16 +77,23 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-slate-950 border-t border-slate-800 pt-16 pb-8">
-      <div className="container mx-auto px-4">
+    <footer className="relative bg-gray-900 border-t border-stratifi-300/20 pt-16 pb-8">
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-stratifi-400/50 to-stratifi-400 opacity-50" />
+
+      <div className="relative z-10 px-4">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-12">
           {/* Logo */}
           <div className="flex-1 mb-8 md:mb-0 flex flex-col items-center md:items-start">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center mr-3">
-                <span className="text-white font-bold text-lg">S</span>
-              </div>
-              <span className="text-2xl font-bold text-white">StratiFi</span>
+              <img
+                src="/logo.png"
+                alt="StratiFi Logo"
+                className="h-8 w-auto mr-3"
+              />
+              <span className="text-2xl font-heading font-bold bg-gray-200 bg-clip-text text-transparent">
+                StratiFi
+              </span>
             </div>
             {/* Social Icons below logo */}
             <div className="flex justify-center gap-8 mt-4 mb-2">
@@ -95,7 +102,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="X"
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-stratifi-50/80 hover:text-white transition-colors"
               >
                 <X className="w-7 h-7" />
               </a>
@@ -104,7 +111,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Telegram"
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-stratifi-50/80 hover:text-white transition-colors"
               >
                 <Send className="w-7 h-7" />
               </a>
@@ -113,7 +120,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Discord"
-                className="text-slate-400 hover:text-white transition-colors"
+                className="text-stratifi-50/80 hover:text-white transition-colors"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -131,44 +138,48 @@ export default function Footer() {
           <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8 w-full">
             {/* Products */}
             <div>
-              <h4 className="text-white font-bold mb-4">Products</h4>
+              <h4 className="text-white font-heading font-bold mb-4 bg-gradient-to-r from-stratifi-50 to-stratifi-100 bg-clip-text text-transparent">
+                Products
+              </h4>
               <ul className="space-y-3">
                 <li>
                   <Link
                     href="/portfolio"
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-stratifi-50/80 hover:text-white transition-colors font-body"
                   >
                     Portfolio
                   </Link>
                 </li>
-                {/* Add more product links if available */}
               </ul>
             </div>
             {/* Company */}
             <div>
-              <h4 className="text-white font-bold mb-4">Company</h4>
+              <h4 className="text-white font-heading font-bold mb-4 bg-gradient-to-r from-stratifi-50 to-stratifi-100 bg-clip-text text-transparent">
+                Company
+              </h4>
               <ul className="space-y-3">
                 <li>
                   <Link
                     href="/contacts"
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-stratifi-50/80 hover:text-white transition-colors"
                   >
                     Contact Us
                   </Link>
                 </li>
-                {/* Add more company links if available */}
               </ul>
             </div>
             {/* Resources */}
             <div>
-              <h4 className="text-white font-bold mb-4">Resources</h4>
+              <h4 className="text-white font-heading font-bold mb-4 bg-gradient-to-r from-stratifi-50 to-stratifi-100 bg-clip-text text-transparent">
+                Resources
+              </h4>
               <ul className="space-y-3">
                 <li>
                   <a
                     href="https://docs.stratifi.xyz/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-stratifi-50/80 hover:text-white transition-colors"
                   >
                     Whitepaper
                   </a>
@@ -177,17 +188,18 @@ export default function Footer() {
             </div>
             {/* Developers */}
             <div>
-              <h4 className="text-white font-bold mb-4">Developers</h4>
+              <h4 className="text-white font-heading font-bold mb-4 bg-gradient-to-r from-stratifi-50 to-stratifi-100 bg-clip-text text-transparent">
+                Developers
+              </h4>
               <ul className="space-y-3">
                 <li>
                   <a
                     href="/api"
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-stratifi-50/80 hover:text-white transition-colors"
                   >
                     API/SDK
                   </a>
                 </li>
-                {/* Add more developer links if available */}
               </ul>
             </div>
           </div>

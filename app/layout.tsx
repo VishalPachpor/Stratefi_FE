@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar";
+import { nohemi, spaceGrotesk } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "StratiFi AI Agent - DeFAI",
@@ -24,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body>
+      <body className={`${nohemi.variable} ${spaceGrotesk.variable} font-sans`}>
         <Navbar />
         {children}
       </body>

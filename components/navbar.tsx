@@ -75,12 +75,14 @@ export default function Navbar() {
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (pathname === "/") {
+        setIsScrolled(window.scrollY > 10);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -88,37 +90,33 @@ export default function Navbar() {
     setActiveDropdown(null);
   }, [pathname]);
 
-  // Mock wallet connection
-  const connectWallet = () => {
-    setIsWalletConnected(!isWalletConnected);
-  };
-
   return (
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
-            ? "bg-slate-900 border-b border-slate-700/50 shadow-lg"
-            : "bg-slate-900"
+          "fixed top-0 left-0 right-0 z-50",
+          pathname === "/"
+            ? isScrolled
+              ? "bg-gray-900/95 backdrop-blur-md border-b border-stratifi-300/20 shadow-lg"
+              : "bg-transparent"
+            : "bg-gray-900/95 backdrop-blur-md border-b border-stratifi-300/20 shadow-lg"
         )}
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-3">
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-                  <Brain className="h-6 w-6 text-white" />
-                </div>
+                <img
+                  src="/logo.png"
+                  alt="StratiFi Logo"
+                  className="h-8 w-auto"
+                />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <h1 className="text-xl font-nohemi font-normal text-white">
                   StratiFi
                 </h1>
-                <p className="text-xs text-slate-400 -mt-1">
-                  AI Yield Optimizer
-                </p>
               </div>
             </Link>
 
@@ -148,7 +146,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-slate-900/95 backdrop-blur-md border-t border-slate-700/50">
+          <div className="lg:hidden bg-stratifi-400/95 backdrop-blur-md border-t border-stratifi-300/20">
             <div className="container mx-auto px-4 py-4 space-y-4">
               {/* Mobile Navigation Links */}
               {navLinks.map((link) =>
@@ -159,28 +157,44 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg transition-colors font-medium",
+                      "flex items-center space-x-3 p-3 rounded-lg",
                       pathname === link.href
-                        ? "bg-blue-600/20 text-blue-400"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/50"
+                        ? "bg-stratifi-200/10 text-white"
+                        : "text-slate-300 hover:text-white hover:bg-stratifi-300/10"
                     )}
                   >
                     {link.icon}
                     <span>{link.label}</span>
+                    {link.badge && (
+                      <Badge
+                        variant="outline"
+                        className="ml-2 bg-blue-500/10 text-blue-400 border-none"
+                      >
+                        {link.badge}
+                      </Badge>
+                    )}
                   </a>
                 ) : (
                   <Link
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg transition-colors font-medium",
+                      "flex items-center space-x-3 p-3 rounded-lg",
                       pathname === link.href
-                        ? "bg-blue-600/20 text-blue-400"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800/50"
+                        ? "bg-stratifi-200/10 text-white"
+                        : "text-slate-300 hover:text-white hover:bg-stratifi-300/10"
                     )}
                   >
                     {link.icon}
                     <span>{link.label}</span>
+                    {link.badge && (
+                      <Badge
+                        variant="outline"
+                        className="ml-2 bg-blue-500/10 text-blue-400 border-none"
+                      >
+                        {link.badge}
+                      </Badge>
+                    )}
                   </Link>
                 )
               )}
@@ -210,12 +224,12 @@ function NavItem({ link, pathname }: NavItemProps) {
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="relative group flex items-center space-x-2"
+        className="flex items-center"
       >
         <div
           className={cn(
-            "flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-300",
-            "text-slate-300 hover:text-white group-hover:bg-slate-800/30"
+            "flex items-center space-x-2 px-3 py-2",
+            "text-slate-300 hover:text-white"
           )}
         >
           {link.icon}
@@ -223,28 +237,22 @@ function NavItem({ link, pathname }: NavItemProps) {
           {link.badge && (
             <Badge
               variant="outline"
-              className="text-xs border-blue-500/20 text-blue-400"
+              className="ml-2 bg-blue-500/10 text-blue-400 border-none"
             >
               {link.badge}
             </Badge>
           )}
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
       </a>
     );
   }
 
   return (
-    <Link
-      href={link.href}
-      className="relative group flex items-center space-x-2"
-    >
+    <Link href={link.href} className="flex items-center relative">
       <div
         className={cn(
-          "flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-300",
-          isActive
-            ? "text-blue-400"
-            : "text-slate-300 hover:text-white group-hover:bg-slate-800/30"
+          "flex items-center space-x-2 px-3 py-2",
+          isActive ? "text-blue-400" : "text-slate-300 hover:text-white"
         )}
       >
         {link.icon}
@@ -252,16 +260,15 @@ function NavItem({ link, pathname }: NavItemProps) {
         {link.badge && (
           <Badge
             variant="outline"
-            className="text-xs border-blue-500/20 text-blue-400"
+            className="ml-2 bg-blue-500/10 text-blue-400 border-none"
           >
             {link.badge}
           </Badge>
         )}
       </div>
       {isActive && (
-        <div className="absolute bottom-0 left-1/2 w-1 h-1 bg-blue-400 rounded-full" />
+        <div className="absolute bottom-0 left-1/2 w-1 h-1 bg-blue-400 rounded-full transform -translate-x-1/2" />
       )}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
     </Link>
   );
 }

@@ -76,7 +76,7 @@ const strategies = [
 
 export default function StrategiesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-slate-950">
       <div className="container mx-auto px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -84,10 +84,10 @@ export default function StrategiesPage() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl font-heading font-bold bg-gradient-to-r from-stratifi-50 via-stratifi-100 to-stratifi-200 bg-clip-text text-transparent mb-4">
             AI Strategies
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl">
+          <p className="text-slate-300 text-lg font-body max-w-2xl">
             Choose from our AI-powered strategies designed to optimize your DeFi
             yields while managing risk
           </p>
@@ -100,11 +100,13 @@ export default function StrategiesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+            <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
               <CardContent className="p-6 text-center">
-                <Brain className="h-8 w-8 text-purple-400 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">AI Powered</p>
-                <p className="text-sm text-slate-400">
+                <Brain className="h-8 w-8 text-stratifi-100 mx-auto mb-2" />
+                <p className="text-2xl font-heading font-bold text-white">
+                  AI Powered
+                </p>
+                <p className="text-sm font-body text-slate-400">
                   Intelligent Optimization
                 </p>
               </CardContent>
@@ -116,11 +118,13 @@ export default function StrategiesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+            <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
               <CardContent className="p-6 text-center">
-                <TrendingUp className="h-8 w-8 text-green-400 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">15.7%</p>
-                <p className="text-sm text-slate-400">Average APY</p>
+                <TrendingUp className="h-8 w-8 text-stratifi-100 mx-auto mb-2" />
+                <p className="text-2xl font-heading font-bold text-white">
+                  15.7%
+                </p>
+                <p className="text-sm font-body text-slate-400">Average APY</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -130,11 +134,15 @@ export default function StrategiesPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+            <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
               <CardContent className="p-6 text-center">
-                <Shield className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">24/7</p>
-                <p className="text-sm text-slate-400">Risk Monitoring</p>
+                <Shield className="h-8 w-8 text-stratifi-100 mx-auto mb-2" />
+                <p className="text-2xl font-heading font-bold text-white">
+                  24/7
+                </p>
+                <p className="text-sm font-body text-slate-400">
+                  Risk Monitoring
+                </p>
               </CardContent>
             </Card>
           </motion.div>
@@ -154,25 +162,25 @@ export default function StrategiesPage() {
           transition={{ delay: 0.6 }}
           className="mt-12"
         >
-          <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+          <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 text-white">
-                <Brain className="h-5 w-5 text-purple-400" />
+              <CardTitle className="flex items-center space-x-2 text-white font-heading">
+                <Brain className="h-5 w-5 text-stratifi-100" />
                 <span>AI Market Intelligence</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="font-body">
                 Real-time insights and recommendations from our AI engine
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium text-white">
+                  <h4 className="font-heading font-medium text-white">
                     Current Recommendations
                   </h4>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                      <span className="text-sm text-slate-300">
+                    <div className="flex items-center justify-between p-3 bg-stratifi-400/10 rounded-lg">
+                      <span className="text-sm font-body text-slate-300">
                         Increase USDC allocation
                       </span>
                       <Badge
@@ -182,8 +190,8 @@ export default function StrategiesPage() {
                         High Confidence
                       </Badge>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg">
-                      <span className="text-sm text-slate-300">
+                    <div className="flex items-center justify-between p-3 bg-stratifi-400/10 rounded-lg">
+                      <span className="text-sm font-body text-slate-300">
                         Reduce ETH exposure
                       </span>
                       <Badge
@@ -197,21 +205,33 @@ export default function StrategiesPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="font-medium text-white">Market Conditions</h4>
+                  <h4 className="font-heading font-medium text-white">
+                    Market Conditions
+                  </h4>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-400">Volatility</span>
-                      <span className="text-sm text-green-400">Low</span>
+                      <span className="text-sm font-body text-slate-400">
+                        Volatility
+                      </span>
+                      <span className="text-sm font-body text-green-400">
+                        Low
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-400">
+                      <span className="text-sm font-body text-slate-400">
                         Yield Environment
                       </span>
-                      <span className="text-sm text-blue-400">Favorable</span>
+                      <span className="text-sm font-body text-blue-400">
+                        Favorable
+                      </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-400">Risk Level</span>
-                      <span className="text-sm text-purple-400">Moderate</span>
+                      <span className="text-sm font-body text-slate-400">
+                        Risk Level
+                      </span>
+                      <span className="text-sm font-body text-purple-400">
+                        Moderate
+                      </span>
                     </div>
                   </div>
                 </div>

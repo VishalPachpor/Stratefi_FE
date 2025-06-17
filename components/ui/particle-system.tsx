@@ -117,19 +117,19 @@ export function ParticleSystem({
 
       particlesRef.current.forEach((particle) => {
         ctx.save();
-        ctx.globalAlpha = particle.opacity;
+        ctx.globalAlpha = particle.opacity * 0.5;
         ctx.fillStyle = particle.color;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 5;
         ctx.shadowColor = particle.color;
 
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.arc(particle.x, particle.y, particle.size * 0.7, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
       });
 
-      // Draw connections
+      // Draw connections with reduced opacity
       particlesRef.current.forEach((particle, i) => {
         particlesRef.current.slice(i + 1).forEach((otherParticle) => {
           const dx = particle.x - otherParticle.x;
@@ -138,9 +138,9 @@ export function ParticleSystem({
 
           if (distance < 120) {
             ctx.save();
-            ctx.globalAlpha = ((120 - distance) / 120) * 0.3;
+            ctx.globalAlpha = ((120 - distance) / 120) * 0.15;
             ctx.strokeStyle = particle.color;
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.3;
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);

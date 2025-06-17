@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function PortfolioPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-slate-950">
       <div className="container mx-auto px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -21,10 +21,10 @@ export default function PortfolioPage() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl font-heading font-bold bg-gradient-to-r from-stratifi-50 via-stratifi-100 to-stratifi-200 bg-clip-text text-transparent mb-4">
             Portfolio Overview
           </h1>
-          <p className="text-slate-300 text-lg">
+          <p className="text-slate-300 text-lg font-body">
             Track your DeFi positions and yield optimization performance
           </p>
         </motion.div>
@@ -60,10 +60,12 @@ export default function PortfolioPage() {
           />
         </div>
 
-        <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+        <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
           <CardHeader>
-            <CardTitle className="text-white">Your Positions</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white font-heading">
+              Your Positions
+            </CardTitle>
+            <CardDescription className="font-body">
               Active yield farming and staking positions
             </CardDescription>
           </CardHeader>
@@ -75,12 +77,12 @@ export default function PortfolioPage() {
                 transition={{ delay: 0.5 }}
                 className="mb-4"
               >
-                <TrendingUp className="h-16 w-16 text-blue-400 mx-auto" />
+                <TrendingUp className="h-16 w-16 text-stratifi-100 mx-auto" />
               </motion.div>
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="text-xl font-heading font-semibold text-white mb-2">
                 Portfolio Coming Soon
               </h3>
-              <p className="text-slate-400">
+              <p className="text-slate-400 font-body">
                 Connect your wallet to view your positions and optimize your
                 yields.
               </p>
@@ -108,10 +110,10 @@ function StatsCard({ title, value, change, icon, positive }: StatsCardProps) {
       whileHover={{ scale: 1.02 }}
       className="relative"
     >
-      <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50 hover:border-blue-500/50 transition-all duration-300">
+      <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20 hover:border-stratifi-100/50 transition-all duration-300">
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-2">
-            <div className="text-blue-400">{icon}</div>
+            <div className="text-stratifi-100">{icon}</div>
             <Badge
               variant="outline"
               className={
@@ -124,8 +126,10 @@ function StatsCard({ title, value, change, icon, positive }: StatsCardProps) {
             </Badge>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-slate-400">{title}</p>
-            <p className="text-2xl font-bold text-white">{value}</p>
+            <p className="text-sm font-body text-slate-400">{title}</p>
+            <p className="text-2xl font-heading font-bold text-white">
+              {value}
+            </p>
           </div>
         </CardContent>
       </Card>

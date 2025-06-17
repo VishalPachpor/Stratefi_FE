@@ -85,7 +85,7 @@ export default function HowItWorks() {
 
   return (
     <section ref={ref} className="py-20 lg:py-32">
-      <div className="container mx-auto px-4">
+      <div className="px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -104,7 +104,7 @@ export default function HowItWorks() {
               4 Simple Steps
             </span>
           </h2>
-          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-300 mx-auto">
             Our AI-powered platform makes DeFi investing simple and profitable.
             Just connect your wallet and let our algorithms do the rest.
           </p>
@@ -230,7 +230,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="text-center"
         >
-          <Card className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-purple-500/30 max-w-2xl mx-auto">
+          <Card className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-purple-500/30 mx-auto">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-white mb-4">
                 Ready to Get Started?

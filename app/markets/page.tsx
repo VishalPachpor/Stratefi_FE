@@ -77,7 +77,7 @@ const marketOpportunities = [
 
 export default function marketsPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-slate-950">
       <div className="container mx-auto px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -86,17 +86,17 @@ export default function marketsPage() {
           className="mb-8"
         >
           <div className="flex items-center space-x-2 mb-4">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-heading font-bold bg-gradient-to-r from-stratifi-50 via-stratifi-100 to-stratifi-200 bg-clip-text text-transparent">
               Markets
             </h1>
             <Badge
               variant="outline"
-              className="border-orange-500/20 text-orange-400"
+              className="border-stratifi-100/20 text-stratifi-100"
             >
               Hot
             </Badge>
           </div>
-          <p className="text-slate-300 text-lg">
+          <p className="text-slate-300 text-lg font-body">
             Discover the best yield opportunities across DeFi protocols
           </p>
         </motion.div>
@@ -108,11 +108,15 @@ export default function marketsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+            <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
               <CardContent className="p-6 text-center">
-                <Globe className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">150+</p>
-                <p className="text-sm text-slate-400">Active Protocols</p>
+                <Globe className="h-8 w-8 text-stratifi-100 mx-auto mb-2" />
+                <p className="text-2xl font-heading font-bold text-white">
+                  150+
+                </p>
+                <p className="text-sm font-body text-slate-400">
+                  Active Protocols
+                </p>
               </CardContent>
             </Card>
           </motion.div>
@@ -122,11 +126,13 @@ export default function marketsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+            <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
               <CardContent className="p-6 text-center">
-                <TrendingUp className="h-8 w-8 text-green-400 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">$12.4B</p>
-                <p className="text-sm text-slate-400">Total TVL</p>
+                <TrendingUp className="h-8 w-8 text-stratifi-100 mx-auto mb-2" />
+                <p className="text-2xl font-heading font-bold text-white">
+                  $12.4B
+                </p>
+                <p className="text-sm font-body text-slate-400">Total TVL</p>
               </CardContent>
             </Card>
           </motion.div>
@@ -136,11 +142,13 @@ export default function marketsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
+            <Card className="bg-stratifi-400/20 backdrop-blur-md border-stratifi-300/20">
               <CardContent className="p-6 text-center">
-                <Zap className="h-8 w-8 text-purple-400 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-white">15.7%</p>
-                <p className="text-sm text-slate-400">Avg APY</p>
+                <Zap className="h-8 w-8 text-stratifi-100 mx-auto mb-2" />
+                <p className="text-2xl font-heading font-bold text-white">
+                  15.7%
+                </p>
+                <p className="text-sm font-body text-slate-400">Avg APY</p>
               </CardContent>
             </Card>
           </motion.div>

@@ -58,7 +58,7 @@ export default function ModeComparison() {
 
   return (
     <section ref={ref} className="py-20 lg:py-32">
-      <div className="container mx-auto px-4">
+      <div className="px-4">
         <div className="mb-12 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -72,14 +72,14 @@ export default function ModeComparison() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mx-auto max-w-2xl text-lg text-slate-300"
+            className="mx-auto text-lg text-slate-300"
           >
             Take control with Research Mode or let our AI handle everything with
             Agent Mode
           </motion.p>
         </div>
 
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto">
           {/* Mode toggle switch */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

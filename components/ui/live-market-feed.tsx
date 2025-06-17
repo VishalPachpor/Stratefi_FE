@@ -24,65 +24,12 @@ interface LiveMarketFeedProps {
 export function LiveMarketFeed({
   className = "",
   autoRefresh = true,
-  refreshInterval = 60 * 60 * 1000, // Update every 1 hour instead of 5 seconds
+  refreshInterval = 60 * 1000, // Update every 1 minute
 }: LiveMarketFeedProps) {
   const [isClient, setIsClient] = useState(false);
-  const [marketData, setMarketData] = useState<MarketData[]>([
-    {
-      symbol: "ETH",
-      price: 2347.82,
-      change: 45.23,
-      changePercent: 1.97,
-      volume: "12.4B",
-      marketCap: "282B",
-      apy: 8.5,
-    },
-    {
-      symbol: "BTC",
-      price: 43521.45,
-      change: -234.12,
-      changePercent: -0.53,
-      volume: "28.7B",
-      marketCap: "853B",
-      apy: 4.2,
-    },
-    {
-      symbol: "USDC",
-      price: 1.0001,
-      change: 0.0001,
-      changePercent: 0.01,
-      volume: "5.2B",
-      marketCap: "32B",
-      apy: 12.8,
-    },
-    {
-      symbol: "LINK",
-      price: 14.82,
-      change: 0.73,
-      changePercent: 5.17,
-      volume: "890M",
-      marketCap: "8.4B",
-      apy: 15.3,
-    },
-    {
-      symbol: "UNI",
-      price: 7.45,
-      change: -0.23,
-      changePercent: -2.99,
-      volume: "456M",
-      marketCap: "4.5B",
-      apy: 18.7,
-    },
-    {
-      symbol: "AAVE",
-      price: 89.34,
-      change: 2.15,
-      changePercent: 2.46,
-      volume: "234M",
-      marketCap: "1.3B",
-      apy: 22.1,
-    },
-  ]);
+  const [marketData, setMarketData] = useState<MarketData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [alerts, setAlerts] = useState<
     { id: string; message: string; type: "positive" | "negative" | "neutral" }[]
@@ -93,56 +40,71 @@ export function LiveMarketFeed({
     setIsClient(true);
   }, []);
 
-  // Simulate live data updates - only after client hydration
-  useEffect(() => {
-    if (!autoRefresh || !isClient) return;
-
-    // Function to update market data
-    const updateMarketData = () => {
-      setMarketData((prevData) =>
-        prevData.map((item) => {
-          const priceChange = (Math.random() - 0.5) * item.price * 0.02; // ±2% max change
-          const newPrice = Math.max(0.001, item.price + priceChange);
-          const changePercent = (priceChange / item.price) * 100;
-
-          // Generate alerts for significant changes
-          if (Math.abs(changePercent) > 3) {
-            const alertId = `${item.symbol}-${Date.now()}`;
-            const alertType = changePercent > 0 ? "positive" : "negative";
-            const message = `${item.symbol} ${
-              changePercent > 0 ? "surged" : "dropped"
-            } ${Math.abs(changePercent).toFixed(1)}%`;
-
-            setAlerts((prev) => [
-              ...prev.slice(-2),
-              { id: alertId, message, type: alertType },
-            ]);
-
-            // Remove alert after 5 seconds
-            setTimeout(() => {
-              setAlerts((prev) => prev.filter((alert) => alert.id !== alertId));
-            }, 5000);
-          }
-
-          return {
-            ...item,
-            price: newPrice,
-            change: priceChange,
-            changePercent,
-            apy: Math.max(0, item.apy + (Math.random() - 0.5) * 2), // APY can also fluctuate
-          };
-        })
+  // Fetch market data from CoinGecko
+  const fetchMarketData = async () => {
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,chainlink,uniswap,aave,usd-coin&order=market_cap_desc&per_page=6&page=1&sparkline=false&price_change_percentage=24h"
       );
-    };
 
-    // Trigger initial update after a short delay (to show initial animation)
-    setTimeout(updateMarketData, 3000);
+      if (!response.ok) {
+        throw new Error("Failed to fetch market data");
+      }
 
-    // Set up interval for subsequent updates
-    const interval = setInterval(updateMarketData, refreshInterval);
+      const data = await response.json();
 
-    return () => clearInterval(interval);
-  }, [autoRefresh, refreshInterval, isClient]);
+      const formattedData = data.map((coin: any) => ({
+        symbol: coin.symbol.toUpperCase(),
+        price: coin.current_price,
+        change: coin.price_change_24h,
+        changePercent: coin.price_change_percentage_24h,
+        volume: formatNumber(coin.total_volume),
+        marketCap: formatNumber(coin.market_cap),
+        apy: Math.random() * 20 + 5, // Simulated APY since CoinGecko doesn't provide this
+      }));
+
+      setMarketData(formattedData);
+      setIsLoading(false);
+      setError(null);
+    } catch (err) {
+      setError("Failed to fetch market data. Please try again later.");
+      setIsLoading(false);
+    }
+  };
+
+  // Format large numbers
+  const formatNumber = (num: number): string => {
+    if (num >= 1e9) return (num / 1e9).toFixed(1) + "B";
+    if (num >= 1e6) return (num / 1e6).toFixed(1) + "M";
+    if (num >= 1e3) return (num / 1e3).toFixed(1) + "K";
+    return num.toFixed(1);
+  };
+
+  // Fetch data on mount and set up refresh interval
+  useEffect(() => {
+    if (!isClient) return;
+
+    fetchMarketData();
+
+    if (autoRefresh) {
+      const interval = setInterval(fetchMarketData, refreshInterval);
+      return () => clearInterval(interval);
+    }
+  }, [isClient, autoRefresh, refreshInterval]);
+
+  if (isLoading) {
+    return (
+      <div className={`flex items-center justify-center h-48 ${className}`}>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={`text-red-400 text-center p-4 ${className}`}>{error}</div>
+    );
+  }
 
   return (
     <div className={`space-y-6 ${className}`}>

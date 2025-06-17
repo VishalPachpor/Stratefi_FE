@@ -4,27 +4,27 @@ import localFont from "next/font/local";
 export const nohemi = localFont({
   src: [
     {
-      path: "../fonts/nohemi/Nohemi-Medium-BF6438cc5883899.ttf",
+      path: "../app/fonts/nohemi/Nohemi-Medium-BF6438cc5883899.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../fonts/nohemi/Nohemi-SemiBold-BF6438cc588a48a.ttf",
+      path: "../app/fonts/nohemi/Nohemi-SemiBold-BF6438cc588a48a.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../fonts/nohemi/Nohemi-Bold-BF6438cc587b5b5.ttf",
+      path: "../app/fonts/nohemi/Nohemi-Bold-BF6438cc587b5b5.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../fonts/nohemi/Nohemi-ExtraBold-BF6438cc5881baf.ttf",
+      path: "../app/fonts/nohemi/Nohemi-ExtraBold-BF6438cc5881baf.ttf",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../fonts/nohemi/Nohemi-Black-BF6438cc58744d4.ttf",
+      path: "../app/fonts/nohemi/Nohemi-Black-BF6438cc58744d4.ttf",
       weight: "900",
       style: "normal",
     },
@@ -37,27 +37,27 @@ export const nohemi = localFont({
 export const spaceGrotesk = localFont({
   src: [
     {
-      path: "../fonts/space-grotesk/SpaceGrotesk-Light.ttf",
+      path: "../app/fonts/space-grotesk/SpaceGrotesk-Light.ttf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../fonts/space-grotesk/SpaceGrotesk-Regular.ttf",
+      path: "../app/fonts/space-grotesk/SpaceGrotesk-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../fonts/space-grotesk/SpaceGrotesk-Medium.ttf",
+      path: "../app/fonts/space-grotesk/SpaceGrotesk-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../fonts/space-grotesk/SpaceGrotesk-SemiBold.ttf",
+      path: "../app/fonts/space-grotesk/SpaceGrotesk-SemiBold.ttf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../fonts/space-grotesk/SpaceGrotesk-Bold.ttf",
+      path: "../app/fonts/space-grotesk/SpaceGrotesk-Bold.ttf",
       weight: "700",
       style: "normal",
     },

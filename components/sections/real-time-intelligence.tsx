@@ -82,52 +82,53 @@ export default function RealTimeIntelligence() {
   const [chainCount, setChainCount] = useState(12);
   const [isClient, setIsClient] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [assets, setAssets] = useState<Asset[]>([]);
 
   // Initialize client-side only values
   useEffect(() => {
     setIsClient(true);
-    setLastUpdated(new Date()); // Set initial timestamp
+    setLastUpdated(new Date());
 
-    // Set initial random values
+    // Initialize assets with market data
+    const initialAssets: Asset[] = [
+      {
+        id: "eth",
+        name: "Ethereum",
+        symbol: "ETH",
+        price: 3012.45,
+        change24h: 2.3,
+        marketData: generateMarketData(7, 3012.45, 50),
+      },
+      {
+        id: "btc",
+        name: "Bitcoin",
+        symbol: "BTC",
+        price: 42568.12,
+        change24h: -1.2,
+        marketData: generateMarketData(7, 42568.12, 50),
+      },
+      {
+        id: "sol",
+        name: "Solana",
+        symbol: "SOL",
+        price: 103.78,
+        change24h: 5.7,
+        marketData: generateMarketData(7, 103.78, 50),
+      },
+    ];
+    setAssets(initialAssets);
+
+    // Update protocol and chain counts
     setProtocolCount(Math.floor(Math.random() * 500 + 1000));
     setChainCount(Math.floor(Math.random() * 5 + 12));
 
-    // Update these values every 30 minutes to show some activity
-    const protocolInterval = setInterval(() => {
+    const interval = setInterval(() => {
       setProtocolCount(Math.floor(Math.random() * 500 + 1000));
       setChainCount(Math.floor(Math.random() * 5 + 12));
-    }, 30 * 60 * 1000); // Every 30 minutes
+    }, 30 * 60 * 1000);
 
-    return () => clearInterval(protocolInterval);
+    return () => clearInterval(interval);
   }, []);
-
-  // Mock assets data - using fixed base values to avoid hydration mismatch
-  const assets: Asset[] = [
-    {
-      id: "eth",
-      name: "Ethereum",
-      symbol: "ETH",
-      price: 3012.45,
-      change24h: 2.3,
-      marketData: [], // Will be populated client-side
-    },
-    {
-      id: "btc",
-      name: "Bitcoin",
-      symbol: "BTC",
-      price: 42568.12,
-      change24h: -1.2,
-      marketData: [], // Will be populated client-side
-    },
-    {
-      id: "sol",
-      name: "Solana",
-      symbol: "SOL",
-      price: 103.78,
-      change24h: 5.7,
-      marketData: [], // Will be populated client-side
-    },
-  ];
 
   // Simulated AI insights
   const mockInsights: MarketInsight[] = [
@@ -304,15 +305,17 @@ export default function RealTimeIntelligence() {
   };
 
   return (
-    <section ref={ref} className="py-8 sm:py-12 lg:py-32 relative">
-      <div className="px-4 sm:px-6">
-        {/* Header */}
-        <div className="mb-6 sm:mb-12 text-center">
+    <section
+      ref={ref}
+      className="py-8 sm:py-12 lg:py-20 overflow-x-hidden w-full"
+    >
+      <div className="px-2 sm:px-4 lg:px-8 max-w-screen-lg mx-auto w-full">
+        <div className="mb-6 sm:mb-8 lg:mb-12 text-center w-full">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+            className="mb-3 sm:mb-4 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold w-full"
           >
             Real-Time Market Intelligence
           </motion.h2>
@@ -320,294 +323,143 @@ export default function RealTimeIntelligence() {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mx-auto text-sm sm:text-base md:text-lg text-slate-300 px-4"
+            className="mx-auto text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl px-2 w-full"
           >
-            Our AI continuously monitors market conditions and identifies
-            optimization opportunities in real-time
+            Stay ahead with AI-powered market insights and real-time portfolio
+            optimization
           </motion.p>
         </div>
 
-        <div className="grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-3">
-          {/* AI Agent & Live Insights */}
-          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-            {/* AI Agent Status */}
+        {/* Market Overview Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8 lg:mb-12 w-full">
+          {assets.map((asset) => (
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              key={asset.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
+              className="rounded-xl border border-slate-800 bg-slate-900/50 p-3 sm:p-4 w-full min-w-0"
             >
-              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between space-y-2 sm:space-y-0">
-                    <div className="flex items-center space-x-3">
-                      <AIAgentAvatar
-                        isActive={true}
-                        isTalking={aiProcessing}
-                        size="lg"
-                      />
-                      <div>
-                        <CardTitle className="flex items-center space-x-2 text-sm sm:text-base md:text-lg">
-                          <span>AI Market Agent</span>
-                          <PulseIndicator />
-                        </CardTitle>
-                        <CardDescription
-                          suppressHydrationWarning
-                          className="text-xs sm:text-sm"
-                        >
-                          Analyzing {protocolCount} protocols across{" "}
-                          {chainCount} chains
-                          {lastUpdated && (
-                            <div className="text-xs text-slate-500 mt-1">
-                              Last updated: {lastUpdated.toLocaleTimeString()}
-                            </div>
-                          )}
-                        </CardDescription>
-                      </div>
+              <div className="flex items-center justify-between mb-2 min-w-0">
+                <div className="flex items-center space-x-2 min-w-0">
+                  <span className="text-base sm:text-lg font-medium truncate">
+                    {asset.symbol}
+                  </span>
+                  <span className="text-xs sm:text-sm text-slate-400 truncate">
+                    {asset.name}
+                  </span>
+                </div>
+                <span
+                  className={cn(
+                    "text-xs sm:text-sm font-medium px-2 py-1 rounded-full",
+                    asset.change24h >= 0
+                      ? "bg-green-500/10 text-green-400"
+                      : "bg-red-500/10 text-red-400"
+                  )}
+                >
+                  {asset.change24h >= 0 ? "+" : ""}
+                  {asset.change24h}%
+                </span>
+              </div>
+              <div className="text-xl sm:text-2xl font-bold mb-2 w-full truncate">
+                ${asset.price.toLocaleString()}
+              </div>
+              <div className="h-16 sm:h-20 w-full min-w-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={asset.marketData}>
+                    <Line
+                      type="monotone"
+                      dataKey="price"
+                      stroke={asset.change24h >= 0 ? "#10b981" : "#ef4444"}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Market Insights */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 w-full">
+          {/* Live Market Feed */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="rounded-xl border border-slate-800 bg-slate-900/50 p-3 sm:p-4 w-full min-w-0"
+          >
+            <div className="mb-3 sm:mb-4 flex items-center justify-between w-full min-w-0">
+              <h3 className="text-lg sm:text-xl font-bold truncate">
+                Live Market Feed
+              </h3>
+              <Badge
+                variant="outline"
+                className="bg-green-500/10 text-green-400 text-xs sm:text-sm"
+              >
+                Live
+              </Badge>
+            </div>
+            <div className="overflow-x-auto -mx-3 sm:-mx-4 px-3 sm:px-4 w-full min-w-0">
+              <LiveMarketFeed />
+            </div>
+          </motion.div>
+
+          {/* AI Insights */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="rounded-xl border border-slate-800 bg-slate-900/50 p-3 sm:p-4 w-full min-w-0"
+          >
+            <div className="mb-3 sm:mb-4 flex items-center justify-between w-full min-w-0">
+              <h3 className="text-lg sm:text-xl font-bold truncate">
+                AI Insights
+              </h3>
+              <div className="flex items-center space-x-2">
+                <AIAgentAvatar processing={aiProcessing} />
+                <span className="text-xs sm:text-sm text-slate-400">
+                  {lastUpdated
+                    ? `Updated ${lastUpdated.toLocaleTimeString()}`
+                    : ""}
+                </span>
+              </div>
+            </div>
+            <div className="space-y-3 sm:space-y-4 w-full min-w-0">
+              {insights.map((insight) => (
+                <div
+                  key={insight.id}
+                  className="rounded-lg border border-slate-800 bg-slate-900 p-3 sm:p-4 w-full min-w-0"
+                >
+                  <div className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 w-full min-w-0">
+                    <div className="flex items-center space-x-2 min-w-0">
+                      {getInsightIcon(insight.type)}
+                      <span className="text-sm sm:text-base font-medium truncate">
+                        {insight.title}
+                      </span>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                    <div className="text-center">
-                      <p className="text-xs sm:text-sm text-slate-400">
-                        Confidence Score
-                      </p>
-                      <AnimatedCounter
-                        value={94.7}
-                        suffix="%"
-                        decimals={1}
-                        className="text-base sm:text-lg md:text-xl font-bold text-cyan-400"
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Live Market Feed */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <CardTitle className="flex items-center space-x-2 text-sm sm:text-base md:text-lg">
-                    <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400" />
-                    <span>Live Market Data</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-2 sm:p-4">
-                  <LiveMarketFeed
-                    autoRefresh={true}
-                    refreshInterval={60 * 60 * 1000}
-                  />
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* AI Insights Feed */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <CardTitle className="flex items-center space-x-2 text-sm sm:text-base md:text-lg">
-                    <Brain className="h-4 w-4 sm:h-5 sm:w-5 text-purple-400" />
-                    <span>AI Insights</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-2 sm:p-4">
-                  <div className="space-y-2 sm:space-y-4">
-                    {insights.length === 0 && (
-                      <div className="text-center py-4 sm:py-8 text-slate-400">
-                        <Brain className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 opacity-50" />
-                        <p className="text-xs sm:text-sm md:text-base">
-                          AI is analyzing market conditions...
-                        </p>
-                      </div>
-                    )}
-
-                    {insights.map((insight, index) => (
-                      <motion.div
-                        key={insight.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`p-2 sm:p-4 rounded-lg border ${getInsightColor(
-                          insight.type
-                        )}`}
-                      >
-                        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-2 space-y-1 sm:space-y-0">
-                          <div className="flex items-center space-x-2">
-                            {getInsightIcon(insight.type)}
-                            <h4 className="font-medium text-xs sm:text-sm md:text-base">
-                              {insight.title}
-                            </h4>
-                          </div>
-                          <div className="flex items-center space-x-2 text-xs">
-                            <span className={getImpactColor(insight.impact)}>
-                              {insight.impact.toUpperCase()}
-                            </span>
-                            <Badge variant="outline" className="text-xs">
-                              {insight.confidence}% confidence
-                            </Badge>
-                          </div>
-                        </div>
-                        <p className="text-xs sm:text-sm text-slate-300 mb-2">
-                          {insight.description}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-slate-400">
-                          <div className="flex items-center space-x-1">
-                            <Clock className="h-3 w-3" />
-                            <span>{insight.timestamp}</span>
-                          </div>
-                          {insight.value && (
-                            <div className="flex items-center space-x-1">
-                              <DollarSign className="h-3 w-3" />
-                              <span>Impact: {insight.value}%</span>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-
-          {/* Performance Metrics & Comparison */}
-          <div className="space-y-4 sm:space-y-6">
-            {/* Yield Performance Comparison */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <CardTitle className="text-sm sm:text-base md:text-lg">
-                    Yield Performance
-                  </CardTitle>
-                  <CardDescription className="text-xs sm:text-sm">
-                    AI optimization vs traditional methods
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="p-2 sm:p-4">
-                  <RacingBars data={apyComparisonData} />
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Performance Metrics */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <CardTitle className="text-sm sm:text-base md:text-lg">
-                    Performance Metrics
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-2 sm:p-4 space-y-2 sm:space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      24h Volume Analyzed
-                    </span>
-                    <AnimatedCounter
-                      value={847000000}
-                      prefix="$"
-                      className="font-medium text-white text-xs sm:text-sm md:text-base"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      Optimization Accuracy
-                    </span>
-                    <AnimatedCounter
-                      value={96.8}
-                      suffix="%"
-                      decimals={1}
-                      className="font-medium text-green-400 text-xs sm:text-sm md:text-base"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      Gas Fees Saved
-                    </span>
-                    <AnimatedCounter
-                      value={34500}
-                      prefix="$"
-                      className="font-medium text-blue-400 text-xs sm:text-sm md:text-base"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      Avg. Yield Improvement
-                    </span>
-                    <AnimatedCounter
-                      value={4.3}
-                      suffix="%"
-                      decimals={1}
-                      className="font-medium text-purple-400 text-xs sm:text-sm md:text-base"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Risk Management */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <Card className="bg-slate-900/50 backdrop-blur-sm border-slate-700/50">
-                <CardHeader className="pb-2 sm:pb-4">
-                  <CardTitle className="text-sm sm:text-base md:text-lg flex items-center space-x-2">
-                    <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
-                    <span>Risk Management</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-2 sm:p-4 space-y-2 sm:space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      Risk Score
-                    </span>
                     <Badge
                       variant="outline"
-                      className="border-green-500/20 text-green-400 text-xs"
+                      className={cn(
+                        "bg-opacity-10 text-xs sm:text-sm",
+                        getInsightColor(insight.type)
+                      )}
                     >
-                      Low Risk
+                      {insight.impact}
                     </Badge>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      Diversification
-                    </span>
-                    <span className="font-medium text-blue-400 text-xs sm:text-sm md:text-base">
-                      Optimal
-                    </span>
+                  <p className="text-xs sm:text-sm text-slate-300 mb-2 w-full truncate">
+                    {insight.description}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-slate-400 w-full min-w-0">
+                    <span>{insight.timestamp}</span>
+                    <span>{insight.confidence}% confidence</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs sm:text-sm text-slate-400">
-                      Insurance Coverage
-                    </span>
-                    <AnimatedCounter
-                      value={95}
-                      suffix="%"
-                      className="font-medium text-purple-400 text-xs sm:text-sm md:text-base"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

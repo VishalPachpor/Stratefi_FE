@@ -72,35 +72,35 @@ export default function HeroSection() {
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div
+                <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
-            >
-              <Button
-                size="lg"
+                >
+                  <Button
+                    size="lg"
                 className="bg-stratifi-200 hover:bg-stratifi-100 text-white px-8 py-6 text-lg font-semibold rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center"
               >
                 <span>Launch App</span>
                 <ArrowRight className="ml-2 h-5 w-5 text-white" />
-              </Button>
+                  </Button>
 
-              <Button
-                variant="outline"
-                size="lg"
+                <Button
+                  variant="outline"
+                  size="lg"
                 className="border-2 border-stratifi-300 text-white hover:bg-stratifi-300/20 px-8 py-6 text-lg font-semibold rounded-2xl transition-all duration-300 backdrop-blur-sm"
-              >
-                <a
-                  href="https://app.youform.com/forms/bbbn2d9r"
-                  target="_blank"
+                >
+                  <a
+                    href="https://app.youform.com/forms/bbbn2d9r"
+                    target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-white"
-                >
+                  >
                   <span>Early Access</span>
                   <ExternalLink className="ml-2 h-5 w-5 text-white" />
-                </a>
-              </Button>
+                  </a>
+                </Button>
             </motion.div>
           </div>
 

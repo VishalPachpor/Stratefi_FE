@@ -127,20 +127,18 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Right Section */}
-            <div className="flex items-center space-x-4">
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 text-slate-300 hover:text-white transition-colors"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </button>
-            </div>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 text-slate-300 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-stratifi-300/20 rounded-lg"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
           </div>
         </div>
 
@@ -148,7 +146,6 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-stratifi-400/95 backdrop-blur-md border-t border-stratifi-300/20">
             <div className="container mx-auto px-4 py-4 space-y-4">
-              {/* Mobile Navigation Links */}
               {navLinks.map((link) =>
                 link.external ? (
                   <a
@@ -157,14 +154,14 @@ export default function Navbar() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg",
+                      "flex items-center space-x-3 p-4 rounded-lg transition-colors",
                       pathname === link.href
                         ? "bg-stratifi-200/10 text-white"
                         : "text-slate-300 hover:text-white hover:bg-stratifi-300/10"
                     )}
                   >
                     {link.icon}
-                    <span>{link.label}</span>
+                    <span className="text-base">{link.label}</span>
                     {link.badge && (
                       <Badge
                         variant="outline"
@@ -179,14 +176,14 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg",
+                      "flex items-center space-x-3 p-4 rounded-lg transition-colors",
                       pathname === link.href
                         ? "bg-stratifi-200/10 text-white"
                         : "text-slate-300 hover:text-white hover:bg-stratifi-300/10"
                     )}
                   >
                     {link.icon}
-                    <span>{link.label}</span>
+                    <span className="text-base">{link.label}</span>
                     {link.badge && (
                       <Badge
                         variant="outline"

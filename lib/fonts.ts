@@ -65,3 +65,4 @@ export const spaceGrotesk = localFont({
   variable: "--font-space-grotesk",
   display: "swap",
 });
+ 

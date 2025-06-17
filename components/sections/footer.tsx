@@ -20,7 +20,13 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 const footerLinks = {
-
+  // product: [
+  //   { name: "Features", href: "#features" },
+  //   // { name: "Pricing", href: "#pricing" },
+  //   { name: "Security", href: "#security" },
+  //   // { name: "API Docs", href: "#api" },
+  //   // { name: "Roadmap", href: "#roadmap" },
+  // ],
   company: [
     { name: "X", href: "https://x.com/stratifixyz" },
     { name: "Telegram", href: "https://t.me/stratifixyz" },

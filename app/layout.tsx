@@ -16,8 +16,6 @@ export const metadata: Metadata = {
     "Blockchain",
     "Web3",
   ],
-  viewport:
-    "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
   openGraph: {
     title: "StratiFi AI Agent - DeFAI",
     description:
@@ -41,19 +39,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-        />
-      </head>
-      <body
-        className={`${nohemi.variable} ${spaceGrotesk.variable} font-sans antialiased`}
-      >
+      <body className={`${nohemi.variable} ${spaceGrotesk.variable} font-sans`}>
         <Navbar />
-        <main className="min-h-screen w-full overflow-x-hidden">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );

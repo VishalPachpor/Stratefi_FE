@@ -7,6 +7,16 @@ import { Wallet } from "lucide-react";
 export default function WalletConnectButton() {
   const { login, authenticated, user, ready } = usePrivy();
 
+  // If Privy is not configured, show a disabled button
+  if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID) {
+    return (
+      <Button variant="outline" disabled>
+        <Wallet className="mr-2 h-4 w-4" />
+        Wallet Not Configured
+      </Button>
+    );
+  }
+
   if (!ready) {
     return (
       <Button variant="outline" disabled>

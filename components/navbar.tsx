@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import WalletConnectButton from "./wallet-connect-button";
 
 interface NavLink {
   href: string;
@@ -69,14 +70,13 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const pathname = usePathname();
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       if (pathname === "/") {
-      setIsScrolled(window.scrollY > 10);
+        setIsScrolled(window.scrollY > 10);
       }
     };
 
@@ -129,6 +129,7 @@ export default function Navbar() {
 
             {/* Right Section */}
             <div className="flex items-center space-x-4">
+              <WalletConnectButton />
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -198,6 +199,9 @@ export default function Navbar() {
                   </Link>
                 )
               )}
+              <div className="pt-4">
+                <WalletConnectButton />
+              </div>
             </div>
           </div>
         )}

@@ -14,6 +14,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.9.1
         version: 3.10.0(react-hook-form@7.56.4(react@19.1.0))
+      '@privy-io/chains':
+        specifier: ^0.0.1
+        version: 0.0.1
       '@privy-io/react-auth':
         specifier: ^2.14.2
         version: 2.14.2(@solana/web3.js@1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10))(@types/react@19.1.5)(bs58@6.0.0)(bufferutil@4.0.9)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(utf-8-validate@5.0.10)(zod@3.25.23)
@@ -161,6 +164,9 @@ importers:
       vaul:
         specifier: ^0.9.6
         version: 0.9.9(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      viem:
+        specifier: ^2.31.3
+        version: 2.31.3(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.23)
       zod:
         specifier: ^3.24.1
         version: 3.25.23
@@ -6647,10 +6653,10 @@ snapshots:
   ox@0.6.7(typescript@5.8.3)(zod@3.25.23):
     dependencies:
       '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
+      '@noble/curves': 1.9.2
+      '@noble/hashes': 1.8.0
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
       abitype: 1.0.8(typescript@5.8.3)(zod@3.25.23)
       eventemitter3: 5.0.1
     optionalDependencies:

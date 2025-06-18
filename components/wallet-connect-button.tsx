@@ -3,9 +3,25 @@
 import { usePrivy } from "@privy-io/react-auth";
 import { Button } from "./ui/button";
 import { Wallet } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function WalletConnectButton() {
   const { login, authenticated, user, ready } = usePrivy();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // During SSR and initial client render, show a disabled button
+  if (!mounted) {
+    return (
+      <Button variant="outline" disabled>
+        <Wallet className="mr-2 h-4 w-4" />
+        Loading...
+      </Button>
+    );
+  }
 
   // If Privy is not configured, show a disabled button
   if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID) {

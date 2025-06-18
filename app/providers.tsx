@@ -1,13 +1,35 @@
 "use client";
 
 import { PrivyProvider } from "@privy-io/react-auth";
+import { base, baseSepolia } from "viem/chains";
+import { addRpcUrlOverrideToChain } from "@privy-io/chains";
+import { useEffect, useState } from "react";
+
+// Configure networks with custom RPC URLs
+const baseOverride = addRpcUrlOverrideToChain(
+  base,
+  process.env.NEXT_PUBLIC_BASE_RPC_URL || "https://mainnet.base.org"
+);
+
+const baseSepoliaOverride = addRpcUrlOverrideToChain(
+  baseSepolia,
+  process.env.NEXT_PUBLIC_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org"
+);
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  // Check if we're in a browser environment
-  const isBrowser = typeof window !== "undefined";
+  const [mounted, setMounted] = useState(false);
 
-  // Only render PrivyProvider if we have an App ID and we're in the browser
-  if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID || !isBrowser) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // During SSR and initial client render, just render children
+  if (!mounted) {
+    return <>{children}</>;
+  }
+
+  // Only render PrivyProvider if we have an App ID
+  if (!process.env.NEXT_PUBLIC_PRIVY_APP_ID) {
     return <>{children}</>;
   }
 
@@ -24,6 +46,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           theme: "dark",
           accentColor: "#3b82f6",
         },
+        supportedChains: [baseOverride, baseSepoliaOverride],
+        defaultChain: baseOverride,
       }}
     >
       {children}

@@ -49,19 +49,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         supportedChains: [baseOverride, baseSepoliaOverride],
         defaultChain: baseOverride,
         loginMethods: ["wallet", "email", "google", "discord"],
-        walletConnectors: {
-          injected: {
-            options: {
-              shimDisconnect: true,
-              shimChainChangedDisconnect: true,
-            },
-          },
-          walletConnect: {
-            options: {
-              projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
-            },
-          },
-        },
       }}
     >
       {children}

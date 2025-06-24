@@ -16,6 +16,7 @@ import {
   Globe,
   User,
   ChevronDown,
+  UserPlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -57,6 +58,13 @@ const navLinks: NavLink[] = [
     icon: <Brain className="h-4 w-4" />,
     description: "AI-powered optimization",
   },
+  // {
+  //   href: "/waitlist",
+  //   label: "Join Waitlist",
+  //   icon: <UserPlus className="h-4 w-4" />,
+  //   description: "Early access to Stratifi AI Agent",
+  //   badge: "New",
+  // },
   {
     href: "https://docs.stratifi.xyz/",
     label: "Whitepaper",

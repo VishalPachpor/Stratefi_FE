@@ -66,7 +66,7 @@ const navLinks: NavLink[] = [
   //   badge: "New",
   // },
   {
-    href: "https://docs.stratifi.xyz/",
+    href: "https://docs.stratifi.xyz/docs/category/stratifi-ai-agent/",
     label: "Whitepaper",
     icon: <Book className="h-4 w-4" />,
     description: "Platform documentation",

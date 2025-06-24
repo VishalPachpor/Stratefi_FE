@@ -26,8 +26,9 @@ const nextConfig = {
     return [
       {
         source: "/docs",
-        destination: "https://docs.stratifi.xyz/docs/intro",
-        permanent: true, // 301 redirect
+        destination:
+          "https://docs.stratifi.xyz/docs/category/stratifi-ai-agent/",
+        permanent: true, // 301 redirect2
       },
       {
         source: "/whitelist",

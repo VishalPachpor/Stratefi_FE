@@ -28,6 +28,7 @@ The Asset Optimization section provides a modular, scalable, and user-friendly i
 - **VaultsLoading.tsx**: Shows the animated "AI is thinking..." loading state.
 - **EmptyState.tsx**: Reusable for "no asset selected", "no protocols", etc.
 - **utils/optimization.ts**: Contains helper functions (e.g., `generateResearchNote`).
+- **utils/url-utils.ts**: Handles URL generation and navigation to the Stratefi app.
 
 ---
 
@@ -39,7 +40,88 @@ The Asset Optimization section provides a modular, scalable, and user-friendly i
 
 ---
 
-## 4. How to Integrate Real APIs & AI Agents
+## 4. View Details Functionality
+
+The "View Details" button in the protocol list allows users to navigate to the Stratefi app with specific asset and pool parameters.
+
+### How it Works
+
+1. **User Flow**:
+
+   - User selects an asset (e.g., ETH, BTC, USDC)
+   - User chooses an action (borrow or lend)
+   - Loading animation shows while protocols are fetched
+   - Protocols are displayed with research notes
+   - User clicks "View Details" on any protocol
+
+2. **URL Generation**:
+
+   - The system builds a URL in the format: `https://agent.xyz/asset?token={symbol}&pool={poolId}&action={action}`
+   - Example: `https://agent.xyz/asset?token=eth&pool=aave-eth&action=lend`
+
+3. **Navigation Options**:
+   - **Left Click**: Opens in the same tab
+   - **Right Click**: Opens in a new tab
+   - **Tooltip**: Shows the full URL and instructions
+
+### URL Parameters
+
+- `token`: The asset symbol in lowercase (e.g., "eth", "btc", "usdc")
+- `pool`: The pool identifier (usually the first pool's ID or protocol ID as fallback)
+- `action`: The action type ("borrow" or "lend")
+
+### Implementation Details
+
+The functionality is implemented using:
+
+1. **Utility Functions** (`utils/url-utils.ts`):
+
+   - `buildStratefiUrl()`: Constructs the URL with proper parameters
+   - `redirectToStratefi()`: Handles the actual navigation
+   - `getUrlDescription()`: Provides human-readable descriptions
+
+2. **ProtocolList Component**:
+
+   - Displays protocols with "View Details" buttons
+   - Handles click and right-click events
+   - Shows tooltips with URL information
+
+3. **Data Flow**:
+   ```
+   Asset Selection → Action Selection → Protocol Display → View Details → URL Redirect
+   ```
+
+### Example URLs
+
+- **Ethereum Lending**: `https://agent.xyz/asset?token=eth&pool=aave-eth&action=lend`
+- **Bitcoin Borrowing**: `https://agent.xyz/asset?token=btc&pool=celsius-btc&action=borrow`
+- **USDC Lending**: `https://agent.xyz/asset?token=usdc&pool=aave-usdc-pool&action=lend`
+
+### Customization
+
+To modify the base URL or add additional parameters:
+
+1. Edit `buildStratefiUrl()` in `utils/url-utils.ts`
+2. Add new parameters to the URLSearchParams object
+3. Update the tooltip display if needed
+
+### Debugging
+
+The system logs redirect information to the console:
+
+```javascript
+console.log(`Redirecting to Stratefi app:`, {
+  url: "https://agent.xyz/asset?token=eth&pool=aave-eth&action=lend",
+  asset: "ETH",
+  protocol: "Aave",
+  action: "lend",
+  openInNewTab: false,
+});
+```
+
+---
+
+## 5. How to Integrate Real APIs & AI Agents
 
 ### A. Replace Mock Data with Real API Calls
 
@@ -75,13 +157,13 @@ The Asset Optimization section provides a modular, scalable, and user-friendly i
 
 ---
 
-## 5. Error Handling & Loading States
+## 6. Error Handling & Loading States
 
 - Use the provided loading and empty state components for a smooth UX.
 
 ---
 
-## 6. Where to Start
+## 7. Where to Start
 
 - Replace the mock data in `index.tsx` with your real API calls.
 - Replace the research note logic in `ResearchNote.tsx` with your AI agent's output.
@@ -94,6 +176,7 @@ The Asset Optimization section provides a modular, scalable, and user-friendly i
 - The codebase is now modular and ready for real data.
 - You only need to swap out the mock data and research logic for real API/AI calls.
 - All UI and state management is already in place for a seamless integration.
+- The View Details functionality provides seamless navigation to the Stratefi app with proper context preservation.
 
 ---
 

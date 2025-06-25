@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { Sparkles, ExternalLink } from "lucide-react";
 import { Asset, Protocol } from "./asset-card";
+import { redirectToStratefi, buildStratefiUrl } from "./utils/url-utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ProtocolListProps {
   protocols: Protocol[];
@@ -16,6 +23,17 @@ export function ProtocolList({
   selectedAction,
   handlePoolSelect,
 }: ProtocolListProps) {
+  // Function to handle redirect to Stratefi app
+  const handleViewDetails = (protocol: Protocol) => {
+    redirectToStratefi(selectedAssetData, protocol, selectedAction);
+  };
+
+  // Function to handle right-click for new tab
+  const handleRightClick = (e: React.MouseEvent, protocol: Protocol) => {
+    e.preventDefault();
+    redirectToStratefi(selectedAssetData, protocol, selectedAction, true);
+  };
+
   if (protocols.length === 0) {
     return (
       <div className="text-center py-8">
@@ -94,14 +112,31 @@ export function ProtocolList({
                 {protocol.risk}
               </span>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-slate-700 hover:bg-slate-800"
-              onClick={() => handlePoolSelect(protocol.pools[0].id)}
-            >
-              View Details
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-slate-700 hover:bg-slate-800"
+                    onClick={() => handleViewDetails(protocol)}
+                    onContextMenu={(e) => handleRightClick(e, protocol)}
+                  >
+                    View Details
+                    <ExternalLink className="ml-1 h-3 w-3" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Open in Stratefi App</p>
+                  <p className="text-xs text-slate-400">
+                    {buildStratefiUrl(selectedAssetData, protocol, selectedAction)}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Right-click to open in new tab
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </motion.div>
       ))}

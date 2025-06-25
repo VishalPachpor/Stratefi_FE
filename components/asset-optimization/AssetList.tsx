@@ -14,12 +14,14 @@ export function AssetList({
   isInView,
 }: AssetListProps) {
   return (
-    <div className="mb-4 flex items-center">
-      <div className="mr-2 rounded-full bg-blue-500/20 p-1">
-        {/* You can add an icon here if needed */}
-      </div>
-      <h3 className="text-xl font-medium">Your Assets</h3>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 mt-4">
+    <div>
+      <h3 className="text-xl font-medium mb-4 flex items-center">
+        <span className="mr-2 rounded-full bg-blue-500/20 p-1">
+          {/* Icon if needed */}
+        </span>
+        Your Assets
+      </h3>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
         {walletAssets.map((asset, index) => (
           <AssetCard
             key={asset.id}

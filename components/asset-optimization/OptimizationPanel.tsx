@@ -204,24 +204,44 @@ export function OptimizationPanel({
     );
     return (
       <>
-        <ResearchNote asset={selectedAssetData} action={selectedAction} />
-        <h4 className="mb-3 font-medium">
-          Available Protocols for {selectedAssetData?.name}
-        </h4>
-        <ProtocolList
-          protocols={protocols}
-          selectedAssetData={selectedAssetData}
-          selectedAction={selectedAction}
-          handlePoolSelect={handlePoolSelect}
-        />
-        <div className="mt-6 flex justify-center">
-          <Button
-            onClick={handleOptimize}
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            Find Optimal Strategy <Sparkles className="ml-2 h-4 w-4" />
-          </Button>
+        <div className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+          {/* Dynamic Heading Card */}
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-2xl font-bold text-white">
+                {selectedAssetData.icon}
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold">
+                  {selectedAssetData.name} Optimization
+                </h3>
+                <p className="text-base text-slate-400 mt-1">
+                  Finding the best yield strategies
+                </p>
+              </div>
+            </div>
+            {/* Optional: Add a button if you want it as in the screenshot */}
+            {/* <Button className="bg-blue-600 hover:bg-blue-700 text-lg font-semibold px-8 py-4 rounded-lg">Optimize Now</Button> */}
+          </div>
+          <ResearchNote asset={selectedAssetData} action={selectedAction} />
+          <h4 className="mb-3 font-medium">
+            Available Protocols for {selectedAssetData?.name}
+          </h4>
+          <ProtocolList
+            protocols={protocols}
+            selectedAssetData={selectedAssetData}
+            selectedAction={selectedAction}
+            handlePoolSelect={handlePoolSelect}
+          />
+          <div className="mt-6 flex justify-center">
+            <Button
+              onClick={handleOptimize}
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              Find Optimal Strategy <Sparkles className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </>
     );

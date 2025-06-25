@@ -467,7 +467,7 @@ export default function AssetOptimization() {
 
   return (
     <section ref={ref} className="py-20 lg:py-32">
-      <div className="px-4">
+      <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -487,45 +487,43 @@ export default function AssetOptimization() {
           </motion.p>
         </div>
 
-        <div className="mx-auto">
-          <div className="grid gap-8 lg:grid-cols-12">
-            {/* Asset Grid */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="lg:col-span-4"
-            >
-              <AssetList
-                walletAssets={walletAssets}
-                selectedAsset={selectedAsset}
-                handleAssetSelect={handleAssetSelect}
-                isInView={isInView}
-              />
-            </motion.div>
+        <div className="grid gap-8 lg:grid-cols-12">
+          {/* Asset Grid */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="lg:col-span-4"
+          >
+            <AssetList
+              walletAssets={walletAssets}
+              selectedAsset={selectedAsset}
+              handleAssetSelect={handleAssetSelect}
+              isInView={isInView}
+            />
+          </motion.div>
 
-            {/* Main Content Area */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={isInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="lg:col-span-8"
-            >
-              <OptimizationPanel
-                selectedAsset={selectedAsset}
-                selectedAssetData={selectedAssetData}
-                selectedAction={selectedAction}
-                isLoadingVaults={isLoadingVaults}
-                showChat={showChat}
-                isOptimizing={isOptimizing}
-                isOptimized={isOptimized}
-                optimizationProgress={optimizationProgress}
-                handleActionSelect={handleActionSelect}
-                handlePoolSelect={handlePoolSelect}
-                handleOptimize={handleOptimize}
-              />
-            </motion.div>
-          </div>
+          {/* Main Content Area */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="lg:col-span-8"
+          >
+            <OptimizationPanel
+              selectedAsset={selectedAsset}
+              selectedAssetData={selectedAssetData}
+              selectedAction={selectedAction}
+              isLoadingVaults={isLoadingVaults}
+              showChat={showChat}
+              isOptimizing={isOptimizing}
+              isOptimized={isOptimized}
+              optimizationProgress={optimizationProgress}
+              handleActionSelect={handleActionSelect}
+              handlePoolSelect={handlePoolSelect}
+              handleOptimize={handleOptimize}
+            />
+          </motion.div>
         </div>
       </div>
     </section>

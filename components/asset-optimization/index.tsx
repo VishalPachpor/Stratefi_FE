@@ -124,6 +124,57 @@ const mockAssets: Asset[] = [
           },
         ],
       },
+      {
+        id: "compound-usdc",
+        name: "Compound",
+        type: "borrow",
+        apy: 3.8,
+        risk: "low",
+        features: ["Borrowing", "Lending", "Governance"],
+        pools: [
+          {
+            id: "compound-usdc-borrow",
+            name: "USDC Borrowing Pool",
+            apy: 3.8,
+            tvl: "1.8B",
+            risk: "low",
+          },
+        ],
+      },
+      {
+        id: "morpho-usdc",
+        name: "Morpho",
+        type: "borrow",
+        apy: 3.2,
+        risk: "medium",
+        features: ["Optimized borrowing", "Lower rates", "MEV protection"],
+        pools: [
+          {
+            id: "morpho-usdc-borrow",
+            name: "USDC Optimized Borrowing",
+            apy: 3.2,
+            tvl: "500M",
+            risk: "medium",
+          },
+        ],
+      },
+      {
+        id: "spark-usdc",
+        name: "Spark",
+        type: "borrow",
+        apy: 2.9,
+        risk: "low",
+        features: ["DAI borrowing", "Stable rates", "MakerDAO backed"],
+        pools: [
+          {
+            id: "spark-usdc-borrow",
+            name: "USDC to DAI Borrowing",
+            apy: 2.9,
+            tvl: "800M",
+            risk: "low",
+          },
+        ],
+      },
     ],
   },
   {
@@ -150,6 +201,74 @@ const mockAssets: Asset[] = [
           },
         ],
       },
+      {
+        id: "solend-borrow",
+        name: "Solend",
+        type: "borrow",
+        apy: 5.8,
+        risk: "medium",
+        features: ["Borrowing", "SOL collateral", "Fast liquidations"],
+        pools: [
+          {
+            id: "solend-sol-borrow",
+            name: "SOL Borrowing Pool",
+            apy: 5.8,
+            tvl: "150M",
+            risk: "medium",
+          },
+        ],
+      },
+      {
+        id: "mango-sol",
+        name: "Mango Markets",
+        type: "borrow",
+        apy: 6.2,
+        risk: "high",
+        features: ["Cross-margin", "Leverage", "Futures"],
+        pools: [
+          {
+            id: "mango-sol-borrow",
+            name: "SOL Cross-Margin Borrowing",
+            apy: 6.2,
+            tvl: "100M",
+            risk: "high",
+          },
+        ],
+      },
+      {
+        id: "francium-sol",
+        name: "Francium",
+        type: "borrow",
+        apy: 4.9,
+        risk: "medium",
+        features: ["Leverage farming", "Yield optimization", "SOL ecosystem"],
+        pools: [
+          {
+            id: "francium-sol-borrow",
+            name: "SOL Leverage Borrowing",
+            apy: 4.9,
+            tvl: "80M",
+            risk: "medium",
+          },
+        ],
+      },
+      {
+        id: "tulip-sol",
+        name: "Tulip",
+        type: "borrow",
+        apy: 5.5,
+        risk: "medium",
+        features: ["Yield farming", "SOL rewards", "Auto-compound"],
+        pools: [
+          {
+            id: "tulip-sol-borrow",
+            name: "SOL Yield Borrowing",
+            apy: 5.5,
+            tvl: "60M",
+            risk: "medium",
+          },
+        ],
+      },
     ],
   },
 ];
@@ -170,6 +289,7 @@ export default function AssetOptimization() {
   const [walletAssets, setWalletAssets] = useState<Asset[]>([]);
   const [isConnecting, setIsConnecting] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [isLoadingVaults, setIsLoadingVaults] = useState(false);
 
   // Fetch wallet assets when connected
   useEffect(() => {
@@ -202,6 +322,7 @@ export default function AssetOptimization() {
     setSelectedPool(null);
     setIsOptimized(false);
     setOptimizationProgress(0);
+    setIsLoadingVaults(false);
     setShowChat(true);
     console.log(
       "After setting - showChat should be true, selectedAction should be null"
@@ -212,6 +333,13 @@ export default function AssetOptimization() {
     console.log("Action selected:", action);
     setSelectedAction(action);
     setShowChat(false);
+    setIsLoadingVaults(true);
+
+    // Simulate AI thinking and loading vaults
+    setTimeout(() => {
+      setIsLoadingVaults(false);
+    }, 2000); // 2 seconds loading animation
+
     console.log("showChat set to false, selectedAction:", action);
   };
 
@@ -247,6 +375,68 @@ export default function AssetOptimization() {
   const selectedProtocol = selectedAssetData?.protocols.find(
     (p) => p.type === selectedAction
   );
+
+  // Function to generate research notes for protocols
+  const generateResearchNote = (asset: Asset, action: "borrow" | "lend") => {
+    const protocols = asset.protocols.filter((p) => p.type === action);
+
+    // Handle case when no protocols are found
+    if (protocols.length === 0) {
+      return {
+        asset: asset.name,
+        action: action,
+        bestProtocol: "No protocols available",
+        bestApy: 0,
+        avgApy: "0.0",
+        protocolCount: 0,
+        riskLevel: "unknown",
+        recommendation: `No ${action} protocols are currently available for ${asset.name}.`,
+        keyFactors: [
+          `No ${action} protocols found for ${asset.name}`,
+          "Consider checking back later for new protocols",
+          "You may want to try a different asset or action",
+        ],
+      };
+    }
+
+    const bestProtocol = protocols.reduce((best, current) =>
+      current.apy > best.apy ? current : best
+    );
+    const avgApy =
+      protocols.reduce((sum, p) => sum + p.apy, 0) / protocols.length;
+
+    const researchNotes = {
+      asset: asset.name,
+      action: action,
+      bestProtocol: bestProtocol.name,
+      bestApy: bestProtocol.apy,
+      avgApy: avgApy.toFixed(1),
+      protocolCount: protocols.length,
+      riskLevel: bestProtocol.risk,
+      recommendation: "",
+      keyFactors: [] as string[],
+    };
+
+    if (action === "lend") {
+      researchNotes.recommendation = `Based on our analysis of ${protocols.length} lending protocols, ${bestProtocol.name} offers the highest yield at ${bestProtocol.apy}% APY for your ${asset.name}.`;
+      researchNotes.keyFactors = [
+        `${bestProtocol.name} has the highest APY among all ${asset.name} lending options`,
+        `Average lending APY across all protocols is ${avgApy}%`,
+        `${bestProtocol.name} maintains a ${bestProtocol.risk} risk profile`,
+        `Protocol has strong liquidity with ${bestProtocol.pools[0].tvl} TVL`,
+      ];
+    } else {
+      researchNotes.recommendation = `Our analysis of ${protocols.length} borrowing protocols shows ${bestProtocol.name} provides the most favorable terms for borrowing against your ${asset.name}.`;
+      researchNotes.keyFactors = [
+        `${bestProtocol.name} offers the lowest borrowing costs`,
+        `Average borrowing rate across protocols is ${avgApy}%`,
+        `Collateral efficiency is optimized for ${asset.name}`,
+        `Protocol maintains ${bestProtocol.risk} risk level with good liquidity`,
+      ];
+    }
+
+    return researchNotes;
+  };
 
   // Temporarily disable Privy checks for debugging
   // if (!ready) {
@@ -363,6 +553,140 @@ export default function AssetOptimization() {
                       asset={selectedAssetData!}
                       onSelect={handleActionSelect}
                     />
+                  );
+                }
+
+                if (selectedAction && isLoadingVaults) {
+                  console.log("RENDER PATH: Loading vaults");
+                  return (
+                    <div className="rounded-xl border border-slate-800 bg-slate-900">
+                      <div className="border-b border-slate-800 p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-lg font-bold text-white">
+                              {selectedAssetData?.icon}
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-medium">
+                                {selectedAssetData?.name} Optimization
+                              </h3>
+                              <p className="text-sm text-slate-400">
+                                AI is analyzing available vaults...
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-8">
+                        <div className="flex flex-col items-center justify-center space-y-6">
+                          {/* AI Thinking Animation */}
+                          <motion.div
+                            animate={{
+                              scale: [1, 1.1, 1],
+                              rotate: [0, 5, -5, 0],
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                            }}
+                            className="relative"
+                          >
+                            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 p-1">
+                              <div className="h-full w-full rounded-full bg-slate-900 flex items-center justify-center">
+                                <span className="text-lg font-bold text-white">
+                                  AI
+                                </span>
+                              </div>
+                            </div>
+                            {/* Thinking dots */}
+                            <motion.div
+                              animate={{
+                                opacity: [0, 1, 0],
+                              }}
+                              transition={{
+                                duration: 1.5,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              }}
+                              className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-blue-500"
+                            />
+                          </motion.div>
+
+                          {/* Loading Text */}
+                          <div className="text-center space-y-2">
+                            <motion.h4
+                              animate={{
+                                opacity: [0.5, 1, 0.5],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                              }}
+                              className="text-lg font-medium text-white"
+                            >
+                              AI is thinking...
+                            </motion.h4>
+                            <p className="text-sm text-slate-400">
+                              Analyzing{" "}
+                              {selectedAction === "lend"
+                                ? "lending"
+                                : "borrowing"}{" "}
+                              protocols for {selectedAssetData?.name}
+                            </p>
+                          </div>
+
+                          {/* Loading Steps */}
+                          <div className="w-full max-w-md space-y-3">
+                            <motion.div
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.5 }}
+                              className="flex items-center space-x-3 text-sm"
+                            >
+                              <div className="h-2 w-2 rounded-full bg-green-500" />
+                              <span className="text-slate-300">
+                                Scanning DeFi protocols
+                              </span>
+                            </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 0.8 }}
+                              className="flex items-center space-x-3 text-sm"
+                            >
+                              <div className="h-2 w-2 rounded-full bg-yellow-500" />
+                              <span className="text-slate-300">
+                                Calculating optimal yields
+                              </span>
+                            </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: 1.1 }}
+                              className="flex items-center space-x-3 text-sm"
+                            >
+                              <div className="h-2 w-2 rounded-full bg-blue-500" />
+                              <span className="text-slate-300">
+                                Preparing vault recommendations
+                              </span>
+                            </motion.div>
+                          </div>
+
+                          {/* Progress Bar */}
+                          <div className="w-full max-w-md">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: "100%" }}
+                              transition={{ duration: 2, ease: "easeInOut" }}
+                              className="h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   );
                 }
 
@@ -556,89 +880,336 @@ export default function AssetOptimization() {
                       </div>
 
                       <div className="p-4">
+                        {/* Research Note Section */}
+                        {selectedAssetData &&
+                          selectedAction &&
+                          (() => {
+                            const protocols =
+                              selectedAssetData.protocols.filter(
+                                (p) => p.type === selectedAction
+                              );
+                            if (protocols.length === 0) {
+                              return (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.5 }}
+                                  className="mb-6 rounded-lg border border-yellow-500/20 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 p-6"
+                                >
+                                  <div className="flex items-start space-x-4">
+                                    <div className="flex-shrink-0">
+                                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 p-1">
+                                        <div className="h-full w-full rounded-full bg-slate-900 flex items-center justify-center">
+                                          <span className="text-sm font-bold text-white">
+                                            !
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center space-x-2 mb-3">
+                                        <h4 className="text-lg font-medium text-white">
+                                          No Protocols Available
+                                        </h4>
+                                        <span className="rounded-full bg-yellow-500/20 px-2 py-1 text-xs text-yellow-400">
+                                          {selectedAction === "lend"
+                                            ? "Lending"
+                                            : "Borrowing"}{" "}
+                                          Unavailable
+                                        </span>
+                                      </div>
+                                      <p className="text-slate-300 leading-relaxed">
+                                        No {selectedAction} protocols are
+                                        currently available for{" "}
+                                        {selectedAssetData.name}. This could be
+                                        due to market conditions, protocol
+                                        updates, or temporary unavailability.
+                                      </p>
+                                      <div className="mt-4 p-3 rounded-lg bg-slate-800/50 border border-slate-700">
+                                        <h5 className="text-sm font-medium text-white mb-2">
+                                          Suggestions:
+                                        </h5>
+                                        <ul className="space-y-1 text-sm text-slate-300">
+                                          <li className="flex items-start space-x-2">
+                                            <span className="text-yellow-400 mt-1">
+                                              •
+                                            </span>
+                                            <span>
+                                              Try selecting a different asset
+                                            </span>
+                                          </li>
+                                          <li className="flex items-start space-x-2">
+                                            <span className="text-yellow-400 mt-1">
+                                              •
+                                            </span>
+                                            <span>
+                                              Check back later for new protocols
+                                            </span>
+                                          </li>
+                                          <li className="flex items-start space-x-2">
+                                            <span className="text-yellow-400 mt-1">
+                                              •
+                                            </span>
+                                            <span>
+                                              Consider the opposite action (lend
+                                              instead of borrow)
+                                            </span>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </motion.div>
+                              );
+                            }
+
+                            const research = generateResearchNote(
+                              selectedAssetData,
+                              selectedAction
+                            );
+                            return (
+                              <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                                className="mb-6 rounded-lg border border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-6"
+                              >
+                                <div className="flex items-start space-x-4">
+                                  <div className="flex-shrink-0">
+                                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 p-1">
+                                      <div className="h-full w-full rounded-full bg-slate-900 flex items-center justify-center">
+                                        <span className="text-sm font-bold text-white">
+                                          AI
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="flex-1">
+                                    <div className="flex items-center space-x-2 mb-3">
+                                      <h4 className="text-lg font-medium text-white">
+                                        AI Research Analysis
+                                      </h4>
+                                      <span className="rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400">
+                                        {selectedAction === "lend"
+                                          ? "Lending"
+                                          : "Borrowing"}{" "}
+                                        Analysis
+                                      </span>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                      <p className="text-slate-300 leading-relaxed">
+                                        {research.recommendation}
+                                      </p>
+
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                          <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-400">
+                                              Best Protocol:
+                                            </span>
+                                            <span className="text-sm font-medium text-white">
+                                              {research.bestProtocol}
+                                            </span>
+                                          </div>
+                                          <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-400">
+                                              Best APY:
+                                            </span>
+                                            <span className="text-sm font-medium text-green-400">
+                                              {research.bestApy}%
+                                            </span>
+                                          </div>
+                                          <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-400">
+                                              Average APY:
+                                            </span>
+                                            <span className="text-sm font-medium text-slate-300">
+                                              {research.avgApy}%
+                                            </span>
+                                          </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                          <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-400">
+                                              Protocols Analyzed:
+                                            </span>
+                                            <span className="text-sm font-medium text-white">
+                                              {research.protocolCount}
+                                            </span>
+                                          </div>
+                                          <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-400">
+                                              Risk Level:
+                                            </span>
+                                            <span
+                                              className={`text-sm font-medium ${
+                                                research.riskLevel === "low"
+                                                  ? "text-green-400"
+                                                  : research.riskLevel ===
+                                                    "medium"
+                                                  ? "text-yellow-400"
+                                                  : research.riskLevel ===
+                                                    "high"
+                                                  ? "text-red-400"
+                                                  : "text-slate-400"
+                                              }`}
+                                            >
+                                              {research.riskLevel}
+                                            </span>
+                                          </div>
+                                          <div className="flex items-center justify-between">
+                                            <span className="text-sm text-slate-400">
+                                              Asset:
+                                            </span>
+                                            <span className="text-sm font-medium text-white">
+                                              {research.asset}
+                                            </span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="border-t border-slate-700 pt-4">
+                                        <h5 className="text-sm font-medium text-white mb-2">
+                                          Key Factors:
+                                        </h5>
+                                        <ul className="space-y-1">
+                                          {research.keyFactors.map(
+                                            (factor, index) => (
+                                              <motion.li
+                                                key={index}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{
+                                                  delay: index * 0.1,
+                                                }}
+                                                className="flex items-start space-x-2 text-sm text-slate-300"
+                                              >
+                                                <span className="text-blue-400 mt-1">
+                                                  •
+                                                </span>
+                                                <span>{factor}</span>
+                                              </motion.li>
+                                            )
+                                          )}
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            );
+                          })()}
+
                         <h4 className="mb-3 font-medium">
                           Available Protocols for {selectedAssetData?.name}
                         </h4>
-                        <div className="space-y-3">
-                          {selectedAssetData?.protocols
-                            .filter((p) => p.type === selectedAction)
-                            .map((protocol, index) => (
-                              <motion.div
-                                key={protocol.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                  duration: 0.3,
-                                  delay: 0.1 + index * 0.1,
-                                }}
-                                className="rounded-lg border border-slate-800 bg-slate-800/50 p-4"
-                              >
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center space-x-3">
-                                    <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 p-2">
-                                      <div className="h-full w-full rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold">
-                                        {protocol.name.charAt(0)}
+                        {(() => {
+                          const protocols =
+                            selectedAssetData?.protocols.filter(
+                              (p) => p.type === selectedAction
+                            ) || [];
+                          if (protocols.length === 0) {
+                            return (
+                              <div className="text-center py-8">
+                                <div className="mb-4 rounded-full bg-slate-800 p-4 w-16 h-16 mx-auto flex items-center justify-center">
+                                  <span className="text-2xl">📋</span>
+                                </div>
+                                <h5 className="text-lg font-medium text-white mb-2">
+                                  No Protocols Found
+                                </h5>
+                                <p className="text-slate-400">
+                                  No {selectedAction} protocols are currently
+                                  available for {selectedAssetData?.name}.
+                                </p>
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <div className="space-y-3">
+                              {protocols.map((protocol, index) => (
+                                <motion.div
+                                  key={protocol.id}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{
+                                    duration: 0.3,
+                                    delay: 0.1 + index * 0.1,
+                                  }}
+                                  className="rounded-lg border border-slate-800 bg-slate-800/50 p-4"
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-3">
+                                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 p-2">
+                                        <div className="h-full w-full rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold">
+                                          {protocol.name.charAt(0)}
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <h5 className="font-medium">
+                                          {protocol.name}
+                                        </h5>
+                                        <p className="text-sm text-slate-400">
+                                          Protocol for {selectedAssetData?.name}
+                                        </p>
                                       </div>
                                     </div>
-                                    <div>
-                                      <h5 className="font-medium">
-                                        {protocol.name}
-                                      </h5>
+                                    <div className="text-right">
                                       <p className="text-sm text-slate-400">
-                                        Protocol for {selectedAssetData?.name}
+                                        Current APY
+                                      </p>
+                                      <p className="text-xl font-bold text-green-400">
+                                        {protocol.apy}%
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="text-right">
-                                    <p className="text-sm text-slate-400">
-                                      Current APY
-                                    </p>
-                                    <p className="text-xl font-bold text-green-400">
-                                      {protocol.apy}%
-                                    </p>
-                                  </div>
-                                </div>
 
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {protocol.features.map((feature, idx) => (
-                                    <span
-                                      key={idx}
-                                      className="rounded-full bg-slate-700 px-3 py-1 text-xs text-slate-300"
-                                    >
-                                      {feature}
-                                    </span>
-                                  ))}
-                                </div>
-
-                                <div className="mt-3 flex items-center justify-between">
-                                  <div className="flex items-center space-x-2">
-                                    <span className="text-sm">Risk Level:</span>
-                                    <span
-                                      className={`text-sm ${
-                                        protocol.risk === "low"
-                                          ? "text-green-400"
-                                          : protocol.risk === "medium"
-                                          ? "text-yellow-400"
-                                          : "text-red-400"
-                                      }`}
-                                    >
-                                      {protocol.risk}
-                                    </span>
+                                  <div className="mt-3 flex flex-wrap gap-2">
+                                    {protocol.features.map((feature, idx) => (
+                                      <span
+                                        key={idx}
+                                        className="rounded-full bg-slate-700 px-3 py-1 text-xs text-slate-300"
+                                      >
+                                        {feature}
+                                      </span>
+                                    ))}
                                   </div>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="border-slate-700 hover:bg-slate-800"
-                                    onClick={() =>
-                                      handlePoolSelect(protocol.pools[0].id)
-                                    }
-                                  >
-                                    View Details
-                                  </Button>
-                                </div>
-                              </motion.div>
-                            ))}
-                        </div>
+
+                                  <div className="mt-3 flex items-center justify-between">
+                                    <div className="flex items-center space-x-2">
+                                      <span className="text-sm">
+                                        Risk Level:
+                                      </span>
+                                      <span
+                                        className={`text-sm ${
+                                          protocol.risk === "low"
+                                            ? "text-green-400"
+                                            : protocol.risk === "medium"
+                                            ? "text-yellow-400"
+                                            : "text-red-400"
+                                        }`}
+                                      >
+                                        {protocol.risk}
+                                      </span>
+                                    </div>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="border-slate-700 hover:bg-slate-800"
+                                      onClick={() =>
+                                        handlePoolSelect(protocol.pools[0].id)
+                                      }
+                                    >
+                                      View Details
+                                    </Button>
+                                  </div>
+                                </motion.div>
+                              ))}
+                            </div>
+                          );
+                        })()}
 
                         <div className="mt-6 flex justify-center">
                           <Button

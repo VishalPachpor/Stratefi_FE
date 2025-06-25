@@ -6,11 +6,9 @@ import { usePathname } from "next/navigation";
 import {
   Wallet,
   Home as HomeIcon,
-  TrendingUp,
   Book,
   Menu,
   X,
-  Brain,
   Shield,
   Zap,
   Globe,
@@ -39,25 +37,12 @@ const navLinks: NavLink[] = [
     description: "Overview & analytics",
   },
   {
-    href: "/portfolio",
-    label: "Portfolio",
-    icon: <TrendingUp className="h-4 w-4" />,
-    description: "Your yield positions",
-  },
-  {
     href: "/markets",
     label: "Markets",
     icon: <Globe className="h-4 w-4" />,
     description: "Explore opportunities",
     badge: "Hot",
   },
-  {
-    href: "/strategies",
-    label: "Strategies",
-    icon: <Brain className="h-4 w-4" />,
-    description: "AI-powered optimization",
-  },
-
   {
     href: "https://docs.stratifi.xyz/docs/category/stratifi-ai-agent/",
     label: "Whitepaper",

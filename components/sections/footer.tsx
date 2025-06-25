@@ -141,16 +141,7 @@ export default function Footer() {
               <h4 className="text-white font-heading font-bold mb-4 bg-gradient-to-r from-stratifi-50 to-stratifi-100 bg-clip-text text-transparent">
                 Products
               </h4>
-              <ul className="space-y-3">
-                <li>
-                  <Link
-                    href="/portfolio"
-                    className="text-stratifi-50/80 hover:text-white transition-colors font-body"
-                  >
-                    Portfolio
-                  </Link>
-                </li>
-              </ul>
+              <ul className="space-y-3">{/* Portfolio link removed */}</ul>
             </div>
             {/* Company */}
             <div>

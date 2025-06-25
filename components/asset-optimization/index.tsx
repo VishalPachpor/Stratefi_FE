@@ -1195,14 +1195,26 @@ export default function AssetOptimization() {
                                       </span>
                                     </div>
                                     <Button
+                                      asChild
                                       variant="outline"
                                       size="sm"
                                       className="border-slate-700 hover:bg-slate-800"
-                                      onClick={() =>
-                                        handlePoolSelect(protocol.pools[0].id)
-                                      }
                                     >
-                                      View Details
+                                      <a
+                                        href={`https://agent.xyz/asset?token=${selectedAssetData.symbol.toLowerCase()}&pool=${
+                                          protocol.pools[0].id
+                                        }`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => {
+                                          const url = `https://agent.xyz/asset?token=${selectedAssetData.symbol.toLowerCase()}&pool=${
+                                            protocol.pools[0].id
+                                          }`;
+                                          console.log("Redirecting to:", url);
+                                        }}
+                                      >
+                                        View Details
+                                      </a>
                                     </Button>
                                   </div>
                                 </motion.div>

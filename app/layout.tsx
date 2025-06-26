@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import Navbar from "@/components/navbar";
+import { Navbar } from "@/components/layout/navigation";
 import { nohemi, spaceGrotesk } from "@/lib/fonts";
 import Providers from "./providers";
 

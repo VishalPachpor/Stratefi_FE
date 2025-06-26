@@ -6,7 +6,6 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AssetCard, Asset, Protocol } from "./asset-card";
-import { ProtocolCard } from "./protocol-card";
 import { OptimizationProgress } from "./optimization-progress";
 import { RiskAssessment } from "./risk-assessment";
 import { ChatInterface } from "./chat-interface";

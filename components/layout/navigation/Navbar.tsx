@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import WalletConnectButton from "./wallet-connect-button";
+import { WalletConnectButton } from "@/components/features/wallet-connection";
 
 interface NavLink {
   href: string;

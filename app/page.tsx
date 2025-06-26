@@ -1,11 +1,11 @@
-import HeroSection from "@/components/sections/hero-section";
-import WalletConnectionDemo from "@/components/sections/wallet-connection-demo";
-import ModeComparison from "@/components/sections/mode-comparison";
-import AssetOptimization from "@/components/asset-optimization";
-import RealTimeIntelligence from "@/components/sections/real-time-intelligence";
-import RiskManagement from "@/components/sections/risk-management";
-import HowItWorks from "@/components/sections/how-it-works";
-import Footer from "@/components/sections/footer";
+import {
+  HeroSection,
+  ModeComparison,
+  RealTimeIntelligence,
+  HowItWorks,
+  Footer,
+} from "@/components/layout/sections";
+import AssetOptimization from "@/components/features/asset-optimization";
 import { ParticleSystem } from "@/components/ui/particle-system";
 import { Metadata } from "next";
 
@@ -38,11 +38,9 @@ export default function Home() {
       {/* Consistent container wrapper for all sections */}
       <div className="mx-auto max-w-6xl">
         <HeroSection />
-        {/* <WalletConnectionDemo /> */}
         <ModeComparison />
         <AssetOptimization />
         <RealTimeIntelligence />
-        {/* <RiskManagement /> */}
         <HowItWorks />
         <Footer />
       </div>
